@@ -1,0 +1,91 @@
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import Modal from "@/Components/Modal";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+import SelectInput from "@/Components/SelectInput";
+import TextInput from "@/Components/TextInput";
+import Textarea from "@/Components/Textarea";
+import { useForm } from "@inertiajs/react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+
+export default function EditVoterForm({modalOpen, closeModal, voter}) {
+    const { data, setData, put, processing, errors, reset } = useForm({
+        name: '',
+        email: '',
+    })
+    useEffect(() => {
+        if(voter){
+            setData({
+                name: voter.name,
+                email: voter.email,
+            });
+        }
+    }, [voter])
+    const handleErrors = (errors) => {
+        if (errors) {
+            let delay = 0
+            for (const key in errors) {
+                if (errors.hasOwnProperty(key)) {
+                    setTimeout(() => {
+                        toast.error(errors[key])
+                    }, delay)
+                }
+                delay += 150
+            }
+        }
+    }
+    const onSubmit = (e, id) => {
+        e.preventDefault()
+        put(route("voter.update", id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                reset()
+                closeModal()
+            },
+            onError: (errors) => handleErrors(errors),
+        })
+    }
+    return (
+        <Modal show={modalOpen} onClose={closeModal}>
+            <form onSubmit={(e) => onSubmit(e, voter.id)} className="p-6">
+                <h2 className="text-lg font-medium text-gray-900">
+                    Edit voter
+                </h2>
+                <div className="mt-4">
+                    <InputLabel htmlFor="voter_name" value="Voter Name" />
+                    <TextInput
+                        type="text"
+                        className="mt-1 block w-full"
+                        id="voter_name"
+                        name="name"
+                        value={data.name}
+                        isFocused={true}
+                        onChange={e => setData('name', e.target.value)}
+                    />
+                    <InputError message={errors.name} className="mt-2" />
+                </div>
+                <div className="mt-4">
+                    <InputLabel htmlFor="voter_email" value="Voter Email" />
+                    <TextInput
+                        type="email"
+                        className="mt-1 block w-full"
+                        id="voter_email"
+                        name="email"
+                        value={data.email}
+                        onChange={e => setData('email', e.target.value)}
+                    />
+                    <InputError message={errors.email} className="mt-2" />
+                </div>
+                <div className="mt-6 flex justify-end">
+                    <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>
+
+                    <PrimaryButton type="submit" className="ms-3" disabled={processing}>
+                        Submit
+                    </PrimaryButton>
+                </div>
+            </form>
+        </Modal>
+    )
+}
