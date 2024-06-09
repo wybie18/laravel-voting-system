@@ -9,20 +9,19 @@
     width: 10px;
 }
  
-/* Track */
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
- 
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888;
-    border-radius: 2px;
 }
  
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+.sfxc-bg-image{
+    background-color: darkgreen;
+    background-image: url(/storage/app/public/image/background/XavierBuilding.png);
+    background-size: cover;
 }
 @media print {
     html, body {

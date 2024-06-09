@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CandidateResource;
-use App\Http\Resources\PositionResource;
-use App\Http\Resources\VotesResource;
 use App\Models\Candidates;
 use App\Models\Elections;
 use App\Models\Positions;
 use App\Models\User;
 use App\Models\Voters;
-use App\Models\Votes;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {

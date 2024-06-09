@@ -80,7 +80,7 @@ export default function Dashboard({ auth, initialData }) {
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div className="p-6 text-gray-900">
                                 <div className='flex items-center overflow-hidden'>
-                                    <span className='p-4 bg-green-400 text-gray-100 w-16 text-center'>
+                                    <span className='p-4 bg-green-700 text-gray-100 w-16 text-center'>
                                         <i className="fa-solid fa-xl fa-square-poll-vertical"></i>
                                     </span>
                                     <div className='px-4 text-gray-700'>
@@ -99,7 +99,7 @@ export default function Dashboard({ auth, initialData }) {
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div className="p-6 text-gray-900">
                                 <div className='flex items-center overflow-hidden'>
-                                    <span className='p-4 bg-green-400 text-gray-100 w-16 text-center'>
+                                    <span className='p-4 bg-green-700 text-gray-100 w-16 text-center'>
                                         <i className="fa-solid fa-xl fa-bars-progress fa-xl"></i>
                                     </span>
                                     <div className='px-4 text-gray-700'>
@@ -118,7 +118,7 @@ export default function Dashboard({ auth, initialData }) {
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div className="p-6 text-gray-900">
                                 <div className='flex items-center overflow-hidden'>
-                                    <span className='p-4 bg-green-400 text-gray-100 w-16 text-center'>
+                                    <span className='p-4 bg-green-700 text-gray-100 w-16 text-center'>
                                         <i className="fa-solid fa-xl fa-user-tie"></i>
                                     </span>
                                     <div className='px-4 text-gray-700'>
@@ -137,7 +137,7 @@ export default function Dashboard({ auth, initialData }) {
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div className="p-6 text-gray-900">
                                 <div className='flex items-center overflow-hidden'>
-                                    <span className='p-4 bg-green-400 text-gray-100 w-16 text-center'>
+                                    <span className='p-4 bg-green-700 text-gray-100 w-16 text-center'>
                                         <i className="fa-solid fa-xl fa-users"></i>
                                     </span>
                                     <div className='px-4 text-gray-700'>

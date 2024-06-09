@@ -35,14 +35,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
@@ -53,22 +45,6 @@ class UserController extends Controller
         User::create($data);
 
         return to_route('user.index')->with('success', 'User created successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
     }
 
     /**

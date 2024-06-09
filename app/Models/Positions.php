@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Positions extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'election_id'];
+    protected $fillable = ['name', 'election_id'];
     public function election(){
         return $this->belongsTo(Elections::class);
     }

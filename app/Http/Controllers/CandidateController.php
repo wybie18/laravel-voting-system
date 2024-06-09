@@ -34,14 +34,6 @@ class CandidateController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCandidatesRequest $request)
@@ -56,22 +48,6 @@ class CandidateController extends Controller
         Candidates::create($data);
 
         return to_route("candidate.index")->with('success', 'Candidate created successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Candidates $candidates)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Candidates $candidates)
-    {
-        //
     }
 
     /**

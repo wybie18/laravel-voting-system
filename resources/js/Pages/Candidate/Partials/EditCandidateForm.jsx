@@ -14,7 +14,7 @@ export default function EditCandidateForm({modalOpen, closeModal, activePosition
     const { data, setData, post, processing, errors, reset } = useForm({
         image: '',
         name: '',
-        description: '',
+        platform: '',
         position_id: '',
     });
 
@@ -22,7 +22,7 @@ export default function EditCandidateForm({modalOpen, closeModal, activePosition
         if(candidate){
             setData({
                 name: candidate.name,
-                description: candidate.description,
+                platform: candidate.platform,
                 position_id: candidate.position.id,
             });
         }
@@ -46,7 +46,7 @@ export default function EditCandidateForm({modalOpen, closeModal, activePosition
         router.post(route("candidate.update", id), {
             _method: 'PUT',
             name: data.name,
-            description: data.description,
+            platform: data.platform,
             position_id: data.position_id,
             image: data.image,
         }, {
@@ -99,11 +99,11 @@ export default function EditCandidateForm({modalOpen, closeModal, activePosition
                     <Textarea
                         className="mt-1 block w-full"
                         id="candidate_description"
-                        name="description"
-                        value={data.description}
-                        onChange={e => setData('description', e.target.value)}
+                        name="platform"
+                        value={data.platform}
+                        onChange={e => setData('platform', e.target.value)}
                     />
-                    <InputError message={errors.description} className="mt-2" />
+                    <InputError message={errors.platform} className="mt-2" />
                 </div>
                 <div className="mt-4">
                     <InputLabel htmlFor="position_id" value="Positions" />

@@ -5,24 +5,27 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
-import Textarea from "@/Components/Textarea";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-export default function EditPositionForm({modalOpen, closeModal, activeElections, position}) {
+export default function EditElectionForm({ modalOpen, closeModal, election}) {
     const { data, setData, put, processing, errors, reset } = useForm({
         name: '',
-        election_id: '',
+        is_active: '',
+        start_date: '',
+        end_date: '',
     })
-    useEffect(() => {
-        if(position){
+    useEffect(()=>{
+        if(election){
             setData({
-                name: position.name,
-                election_id: position.election.id,
-            });
+                name: election.name,
+                is_active: election.is_active,
+                start_date: election.start_date,
+                end_date: election.end_date,
+            })
         }
-    }, [position])
+    }, [election])
     const handleErrors = (errors) => {
         if (errors) {
             let delay = 0
@@ -38,7 +41,7 @@ export default function EditPositionForm({modalOpen, closeModal, activeElections
     }
     const onSubmit = (e, id) => {
         e.preventDefault()
-        put(route("position.update", id), {
+        put(route("election.update", id), {
             preserveScroll: true,
             onSuccess: () => {
                 reset()
@@ -49,16 +52,16 @@ export default function EditPositionForm({modalOpen, closeModal, activeElections
     }
     return (
         <Modal show={modalOpen} onClose={closeModal}>
-            <form onSubmit={(e) => onSubmit(e, position.id)} className="p-6">
+            <form onSubmit={(e) => {onSubmit(e, election.id)}} className="p-6">
                 <h2 className="text-lg font-medium text-gray-900">
-                    Edit position
+                    Create new election
                 </h2>
                 <div className="mt-4">
-                    <InputLabel htmlFor="position_name" value="Position Name" />
+                    <InputLabel htmlFor="election_name" value="Election Name" />
                     <TextInput
                         type="text"
                         className="mt-1 block w-full"
-                        id="position_name"
+                        id="election_name"
                         name="name"
                         value={data.name}
                         isFocused={true}
@@ -67,22 +70,43 @@ export default function EditPositionForm({modalOpen, closeModal, activeElections
                     <InputError message={errors.name} className="mt-2" />
                 </div>
                 <div className="mt-4">
-                    <InputLabel htmlFor="election_id" value="Election" />
+                    <InputLabel htmlFor="election_start_date" value="Election Start Date" />
+                    <TextInput
+                        type="date"
+                        className="mt-1 block w-full"
+                        id="election_start_date"
+                        name="start_date"
+                        value={data.start_date}
+                        onChange={e => setData('start_date', e.target.value)}
+                    />
+                    <InputError message={errors.start_date} className="mt-2" />
+                </div>
+                <div className="mt-4">
+                    <InputLabel htmlFor="election_end_date" value="Election End Date" />
+                    <TextInput
+                        type="date"
+                        className="mt-1 block w-full"
+                        id="election_end_date"
+                        name="end_date"
+                        value={data.end_date}
+                        onChange={e => setData('end_date', e.target.value)}
+                    />
+                    <InputError message={errors.end_date} className="mt-2" />
+                </div>
+                <div className="mt-4">
+                    <InputLabel htmlFor="election_status" value="Election Status" />
                     <SelectInput
                         className="mt-1 block w-full"
-                        id="election_id"
-                        name="election"
-                        value={data.election_id}
-                        onChange={e => setData('election_id', e.target.value)}
+                        id="election_status"
+                        name="status"
+                        value={data.is_active}
+                        onChange={e => setData('is_active', e.target.value)}
                     >
-                        <option value="" hidden>Select Active Election</option>
-                        {activeElections.map(election => (
-                            <option key={election.id} value={election.id}>
-                                {election.name}
-                            </option>
-                        ))}
+                        <option value="" hidden>Select Status</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
                     </SelectInput>
-                    <InputError message={errors.election_id} className="mt-2" />
+                    <InputError message={errors.is_active} className="mt-2" />
                 </div>
                 <div className="mt-6 flex justify-end">
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>

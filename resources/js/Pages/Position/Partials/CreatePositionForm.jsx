@@ -12,7 +12,6 @@ import toast from "react-hot-toast";
 export default function CreatePositionForm({modalOpen, closeModal, activeElections}) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
-        description: '',
         election_id: '',
     })
     const handleErrors = (errors) => {
@@ -57,17 +56,6 @@ export default function CreatePositionForm({modalOpen, closeModal, activeElectio
                         onChange={e => setData('name', e.target.value)}
                     />
                     <InputError message={errors.name} className="mt-2" />
-                </div>
-                <div className="mt-4">
-                    <InputLabel htmlFor="position_description" value="Position Description" />
-                    <Textarea
-                        className="mt-1 block w-full"
-                        id="position_description"
-                        name="description"
-                        value={data.description}
-                        onChange={e => setData('description', e.target.value)}
-                    />
-                    <InputError message={errors.description} className="mt-2" />
                 </div>
                 <div className="mt-4">
                     <InputLabel htmlFor="election_id" value="Election" />

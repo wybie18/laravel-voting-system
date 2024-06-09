@@ -19,7 +19,7 @@ class CandidateResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'description' => $this->description,
+            'platform' => $this->platform,
             'image_url' => $this->image_url ? Storage::url($this->image_url) : '',
             "created_at" => (new Carbon($this->created_at)) -> format('Y-m-d'),
             "updated_at" => (new Carbon($this->updated_at)) -> format('Y-m-d'),

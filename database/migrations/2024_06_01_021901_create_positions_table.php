@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->longText('description');
             $table->foreignId('election_id')->constrained('elections')->onDelete('cascade');
             $table->timestamps();
         });

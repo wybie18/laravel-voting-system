@@ -24,7 +24,7 @@ class UpdateCandidatesRequest extends FormRequest
         return [
             "name" => ['required', 'max:100'],
             "image" => ["nullable","image"],
-            "description" => ['required', 'string'],
+            "platform" => ['required', 'string'],
             "position_id" => ['required'],
         ];
     }

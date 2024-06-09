@@ -8,16 +8,37 @@ import { Head, Link, router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import DeleteElectionForm from "./Partials/DeleteElectionForm";
+import CreateElectionForm from "./Partials/CreateElectionForm";
+import EditElectionForm from "./Partials/EditElectionForm";
 
-export default function Index({auth, elections, queryParams = null, success}){
-    queryParams =  queryParams || {};
+export default function Index({ auth, elections, queryParams = null, success }) {
+    queryParams = queryParams || {};
     const [electionData, setElectionData] = useState()
+    const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
     const [confirmingDeletion, setConfirmingDeletion] = useState(false);
 
-    const handleElectionIdDeletion = (data) => {   
-        setElectionData(e=>(e = data))
-        setConfirmingDeletion(true);Link
+    const handleCreateElection = () => {
+        setCreateModalOpen(true);
+    };
+
+    const handleEditElection = (election) => {
+        setElectionData(e => (e = election));
+        setEditModalOpen(true);
+    };
+
+    const handleElectionIdDeletion = (data) => {
+        setElectionData(e => (e = data))
+        setConfirmingDeletion(true); Link
     }
+
+    const closeCreateModal = () => {
+        setCreateModalOpen(false);
+    };
+
+    const closeEditModal = () => {
+        setEditModalOpen(false);
+    };
 
     const closeModal = () => {
         setConfirmingDeletion(false);
@@ -34,9 +55,9 @@ export default function Index({auth, elections, queryParams = null, success}){
     }, [success]);
 
     const searchFieldChanged = (name, value) => {
-        if(value){
+        if (value) {
             queryParams[name] = value;
-        }else{
+        } else {
             delete queryParams[name];
         }
         router.get(route('election.index'), queryParams);
@@ -47,30 +68,30 @@ export default function Index({auth, elections, queryParams = null, success}){
         searchFieldChanged(name, e.target.value)
     }
 
-    const sortChange = (name) =>{
-        if(name === queryParams.sort_field){
-            if(queryParams.sort_direction === 'asc'){
+    const sortChange = (name) => {
+        if (name === queryParams.sort_field) {
+            if (queryParams.sort_direction === 'asc') {
                 queryParams.sort_direction = 'desc';
             }
-            else{
+            else {
                 queryParams.sort_direction = 'asc';
             }
-        }else{
+        } else {
             queryParams.sort_field = name;
             queryParams.sort_direction = 'asc';
         }
         router.get(route('election.index'), queryParams);
     }
 
-    return(
-        <AdminAuthenticatedLayout 
+    return (
+        <AdminAuthenticatedLayout
             user={auth.user}
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Elections</h2>
-                    <Link href={route("election.create")} className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
-                    Add Election
-                    </Link>
+                    <button type="button" onClick={handleCreateElection} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">
+                        Add Election
+                    </button>
                 </div>
             }
         >
@@ -109,37 +130,38 @@ export default function Index({auth, elections, queryParams = null, success}){
                                         </tr>
                                     </thead>
                                     {elections.data.length > 0 ?
-                                    (<thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500">
-                                        <tr className="text-nowrap">
-                                            <th className="px-3 py-2">
-                                            </th>
-                                            <th className="px-3 py-2">
-                                                <TextInput 
-                                                    className="w-full" 
-                                                    defaultValue={queryParams.name}
-                                                    placeholder="Enter Election Name"
-                                                    onBlur={e => searchFieldChanged('name', e.target.value)}
-                                                    onKeyPress={e => onKeyPress('name', e)}
-                                                />
-                                            </th>
-                                            <th className="px-3 py-2">
-                                                <SelectInput 
-                                                    className="w-full"
-                                                    defaultValue={queryParams.status}
-                                                    onChange={e => searchFieldChanged('status', e.target.value)} 
-                                                >
-                                                    <option value="">Select Status</option>
-                                                    <option value="1">Active</option>
-                                                    <option value="0">Inactive</option>
-                                                </SelectInput>
-                                            </th>
-                                            <th className="px-3 py-2"></th>
-                                            <th className="px-3 py-2"></th>
-                                            <th className="px-3 py-2"></th>
-                                            <th className="px-3 py-2"></th>
-                                            <th className="px-3 py-2 text-right"></th>
-                                        </tr>
-                                    </thead>) : null
+                                        (<thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500">
+                                            <tr className="text-nowrap">
+                                                <th className="px-3 py-2">
+                                                </th>
+                                                <th className="px-3 py-2">
+                                                    <TextInput
+                                                        className="w-full"
+                                                        defaultValue={queryParams.name}
+                                                        placeholder="Enter Election Name"
+                                                        onBlur={e => searchFieldChanged('name', e.target.value)}
+                                                        onKeyPress={e => onKeyPress('name', e)}
+                                                    />
+                                                </th>
+                                                <th className="px-3 py-2">
+                                                    <SelectInput
+                                                        className="w-full"
+                                                        defaultValue={queryParams.status}
+                                                        onChange={e => searchFieldChanged('status', e.target.value)}
+                                                    >
+                                                        <option value="" selected hidden>Select Status</option>
+                                                        <option value="">All</option>
+                                                        <option value="1">Active</option>
+                                                        <option value="0">Inactive</option>
+                                                    </SelectInput>
+                                                </th>
+                                                <th className="px-3 py-2"></th>
+                                                <th className="px-3 py-2"></th>
+                                                <th className="px-3 py-2"></th>
+                                                <th className="px-3 py-2"></th>
+                                                <th className="px-3 py-2 text-right"></th>
+                                            </tr>
+                                        </thead>) : null
                                     }
                                     <tbody>
                                         {elections.data.length > 0 ? (
@@ -160,9 +182,9 @@ export default function Index({auth, elections, queryParams = null, success}){
                                                     <td className="px-3 py-2 text-nowrap">{election.created_at}</td>
                                                     <td className="px-3 py-2 text-nowrap">{election.updated_at}</td>
                                                     <td className="px-3 py-2 text-right">
-                                                        <Link href={route('election.edit', election.id)} className="font-medium text-blue-600 hover:underline mx-1 cursor-pointer">
+                                                        <span className="font-medium text-blue-600 hover:underline mx-1 cursor-pointer" onClick={() => handleEditElection(election)}>
                                                             Edit
-                                                        </Link>
+                                                        </span>
                                                         <span className="font-medium text-red-600 hover:underline mx-1 cursor-pointer" onClick={() => handleElectionIdDeletion(election)}>
                                                             Delete
                                                         </span>
@@ -171,17 +193,21 @@ export default function Index({auth, elections, queryParams = null, success}){
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="7" className="px-3 py-2 text-center">No data available</td>
+                                                <td colSpan="8" className="px-3 py-2 text-center">No data available</td>
                                             </tr>
                                         )}
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination links={elections.meta.links}/>
+                            {elections.data.length > 0 ? (
+                                <Pagination links={elections.meta.links} />
+                            ) : null}
                         </div>
                     </div>
                 </div>
             </div>
+            <CreateElectionForm modalOpen={createModalOpen} closeModal={closeCreateModal} />
+            <EditElectionForm modalOpen={editModalOpen} closeModal={closeEditModal} election={electionData} />
             <DeleteElectionForm election={electionData} confirmingDeletion={confirmingDeletion} closeModal={closeModal} />
         </AdminAuthenticatedLayout>
     )

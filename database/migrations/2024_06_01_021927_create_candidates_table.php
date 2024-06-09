@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->longText('description');
+            $table->longText('platform');
             $table->string('image_url')->nullable();
-            $table->integer('votes')->default(0);
             $table->foreignId('position_id')->constrained('positions')->onDelete('cascade');
             $table->timestamps();
         });

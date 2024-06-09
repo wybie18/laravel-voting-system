@@ -11,18 +11,18 @@ import EditPositionForm from "./Partials/EditPositionForm";
 import toast from "react-hot-toast";
 import DeletePositionForm from "./Partials/DeletePositionForm";
 
-export default function Index({auth, positions, queryParams = null, success}){
-    queryParams =  queryParams || {};
+export default function Index({ auth, positions, queryParams = null, success }) {
+    queryParams = queryParams || {};
     const [activeElections, setActiveElections] = useState([]);
     const [positionData, setPositionData] = useState()
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-    
+
     useEffect(() => {
         fetchActiveElections();
     }, []);
-    
+
     const fetchActiveElections = async () => {
         try {
             const response = await axios.get('/api/active-elections');
@@ -35,25 +35,25 @@ export default function Index({auth, positions, queryParams = null, success}){
     const handleCreatePosition = () => {
         setCreateModalOpen(true);
     };
-    
+
     const handleEditPosition = (position) => {
-        setPositionData(p => (p =position));
+        setPositionData(p => (p = position));
         setEditModalOpen(true);
     };
-    
+
     const handleDeletePosition = (position) => {
-        setPositionData(p => (p =position));
+        setPositionData(p => (p = position));
         setDeleteModalOpen(true);
     };
-    
+
     const closeCreateModal = () => {
         setCreateModalOpen(false);
     };
-    
+
     const closeEditModal = () => {
         setEditModalOpen(false);
     };
-    
+
     const closeDeleteModal = () => {
         setDeleteModalOpen(false);
     };
@@ -69,9 +69,9 @@ export default function Index({auth, positions, queryParams = null, success}){
     }, [success]);
 
     const searchFieldChanged = (name, value) => {
-        if(value){
+        if (value) {
             queryParams[name] = value;
-        }else{
+        } else {
             delete queryParams[name];
         }
         router.get(route('position.index'), queryParams);
@@ -82,29 +82,29 @@ export default function Index({auth, positions, queryParams = null, success}){
         searchFieldChanged(name, e.target.value)
     }
 
-    const sortChange = (name) =>{
-        if(name === queryParams.sort_field){
-            if(queryParams.sort_direction === 'asc'){
+    const sortChange = (name) => {
+        if (name === queryParams.sort_field) {
+            if (queryParams.sort_direction === 'asc') {
                 queryParams.sort_direction = 'desc';
             }
-            else{
+            else {
                 queryParams.sort_direction = 'asc';
             }
-        }else{
+        } else {
             queryParams.sort_field = name;
             queryParams.sort_direction = 'asc';
         }
         router.get(route('position.index'), queryParams);
     }
 
-    return(
-        <AdminAuthenticatedLayout 
+    return (
+        <AdminAuthenticatedLayout
             user={auth.user}
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Positions</h2>
-                    <button type="button" onClick={handleCreatePosition} className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
-                    Add Position
+                    <button type="button" onClick={handleCreatePosition} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">
+                        Add Position
                     </button>
                 </div>
             }
@@ -126,9 +126,6 @@ export default function Index({auth, positions, queryParams = null, success}){
                                             <TableHeading name="name" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Name
                                             </TableHeading>
-                                            <TableHeading name="description" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
-                                                Description
-                                            </TableHeading>
                                             <TableHeading name="created_at" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Created Date
                                             </TableHeading>
@@ -139,25 +136,24 @@ export default function Index({auth, positions, queryParams = null, success}){
                                         </tr>
                                     </thead>
                                     {positions.data.length > 0 ?
-                                    (<thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500">
-                                        <tr className="text-nowrap">
-                                            <th className="px-3 py-2">
-                                            </th>
-                                            <th className="px-3 py-2">
-                                            </th>
-                                            <th className="px-3 py-2">
-                                                <TextInput 
-                                                    className="w-full" 
-                                                    defaultValue={queryParams.name}
-                                                    placeholder="Enter Position Name"
-                                                    onBlur={e => searchFieldChanged('name', e.target.value)}
-                                                    onKeyPress={e => onKeyPress('name', e)}
-                                                />
-                                            </th>
-                                            <th className="px-3 py-2"></th>
-                                            <th className="px-3 py-2 text-right"></th>
-                                        </tr>
-                                    </thead>) : null
+                                        (<thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500">
+                                            <tr className="text-nowrap">
+                                                <th className="px-3 py-2">
+                                                </th>
+                                                <th className="px-3 py-2">
+                                                </th>
+                                                <th className="px-3 py-2">
+                                                    <TextInput
+                                                        className="w-full"
+                                                        defaultValue={queryParams.name}
+                                                        placeholder="Enter Position Name"
+                                                        onBlur={e => searchFieldChanged('name', e.target.value)}
+                                                        onKeyPress={e => onKeyPress('name', e)}
+                                                    />
+                                                </th>
+                                                <th className="px-3 py-2 text-right"></th>
+                                            </tr>
+                                        </thead>) : null
                                     }
                                     <tbody>
                                         {positions.data.length > 0 ? (
@@ -166,16 +162,15 @@ export default function Index({auth, positions, queryParams = null, success}){
                                                     <td className="px-3 py-2">{position.id}</td>
                                                     <td className="px-3 py-2">
                                                         <div className="flex items-center justify-start gap-1">
-                                                            <span 
-                                                            className={
-                                                                "min-w-[10px] min-h-[10px] rounded-full p-0 m-0 " +
-                                                                Election_Status_Class[position.election.is_active]
-                                                            }></span>
+                                                            <span
+                                                                className={
+                                                                    "min-w-[10px] min-h-[10px] rounded-full p-0 m-0 " +
+                                                                    Election_Status_Class[position.election.is_active]
+                                                                }></span>
                                                             <span>{position.election.name}</span>
                                                         </div>
                                                     </td>
                                                     <td className="px-3 py-2">{position.name}</td>
-                                                    <td className="px-3 py-2">{position.description}</td>
                                                     <td className="px-3 py-2">{position.created_at}</td>
                                                     <td className="px-3 py-2">{position.updated_at}</td>
                                                     <td className="px-3 py-2 text-right">
@@ -190,20 +185,22 @@ export default function Index({auth, positions, queryParams = null, success}){
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="7" className="px-3 py-2 text-center">No data available</td>
+                                                <td colSpan="6" className="px-3 py-2 text-center">No data available</td>
                                             </tr>
                                         )}
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination links={positions.meta.links}/>
+                            {positions.data.length > 0 ? (
+                                <Pagination links={positions.meta.links} />
+                            ) : null}
                         </div>
                     </div>
                 </div>
             </div>
             <CreatePositionForm modalOpen={createModalOpen} closeModal={closeCreateModal} activeElections={activeElections} />
-            <EditPositionForm modalOpen={editModalOpen} closeModal={closeEditModal} activeElections={activeElections} position={positionData}/>
-            <DeletePositionForm modalOpen={deleteModalOpen} closeModal={closeDeleteModal} position={positionData}/>
+            <EditPositionForm modalOpen={editModalOpen} closeModal={closeEditModal} activeElections={activeElections} position={positionData} />
+            <DeletePositionForm modalOpen={deleteModalOpen} closeModal={closeDeleteModal} position={positionData} />
         </AdminAuthenticatedLayout>
     )
 }

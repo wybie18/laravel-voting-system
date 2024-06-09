@@ -51,14 +51,14 @@ export default function Index({ auth, voters, queryParams = null, success }) {
     };
 
     const searchFieldChanged = (name, value) => {
-        if(value){
+        if (value) {
             queryParams[name] = value;
             if (name === 'name' && queryParams.email) {
                 delete queryParams.email;
             } else if (name === 'email' && queryParams.name) {
                 delete queryParams.name;
             }
-        }else{
+        } else {
             delete queryParams[name];
         }
         router.get(route('voter.index'), queryParams);
@@ -69,15 +69,15 @@ export default function Index({ auth, voters, queryParams = null, success }) {
         searchFieldChanged(name, e.target.value)
     }
 
-    const sortChange = (name) =>{
-        if(name === queryParams.sort_field){
-            if(queryParams.sort_direction === 'asc'){
+    const sortChange = (name) => {
+        if (name === queryParams.sort_field) {
+            if (queryParams.sort_direction === 'asc') {
                 queryParams.sort_direction = 'desc';
             }
-            else{
+            else {
                 queryParams.sort_direction = 'asc';
             }
-        }else{
+        } else {
             queryParams.sort_field = name;
             queryParams.sort_direction = 'asc';
         }
@@ -101,14 +101,14 @@ export default function Index({ auth, voters, queryParams = null, success }) {
                 <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Voters</h2>
                     <div>
-                        <button type="button" onClick={handleCreateVoter} className="bg-emerald-500 py-1 px-3 me-2 text-white rounded shadow transition-all hover:bg-emerald-600">
+                        <button type="button" onClick={handleCreateVoter} className="bg-green-900 py-1 px-3 me-2 text-white rounded shadow transition-all hover:bg-green-700">
                             Add Voter
                         </button>
-                        <button type="button" onClick={handleUploadVoter} className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
+                        <button type="button" onClick={handleUploadVoter} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">
                             <i class="fa-solid fa-upload"></i>
                         </button>
                     </div>
-                    
+
                 </div>
             }
         >
@@ -190,13 +190,15 @@ export default function Index({ auth, voters, queryParams = null, success }) {
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="7" className="px-3 py-2 text-center">No data available</td>
+                                                <td colSpan="6" className="px-3 py-2 text-center">No data available</td>
                                             </tr>
                                         )}
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination links={voters.meta.links} />
+                            {voters.data.length > 0 ? (
+                                <Pagination links={voters.meta.links} />
+                            ) : null}
                         </div>
                     </div>
                 </div>

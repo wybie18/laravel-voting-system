@@ -10,9 +10,12 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 export default function Home({ positions, candidates, elections, currectElectionId, success }) {
+    const electionName = elections.filter(election => election.id == currectElectionId).map(election => election.name)
     const [openModal, setOpenModal] = useState(false);
     const [previewModal, setPreviewModal] = useState(false);
     const [candidateName, setCandidateName] = useState('');
+    const [candidateImage, setCandidateImage] = useState('');
+    const [candidatePosition, setCandidatePosition] = useState('');
     const [candidatePlatform, setCandidatePlatform] = useState('');
     const [selectedCandidates, setSelectedCandidates] = useState({});
     const [emailValid, setEmailValid] = useState(null);
@@ -27,7 +30,9 @@ export default function Home({ positions, candidates, elections, currectElection
 
     const handleOpenModal = (candidate) => {
         setCandidateName(candidate.name);
-        setCandidatePlatform(candidate.description);
+        setCandidatePosition(candidate.position.name);
+        setCandidatePlatform(candidate.platform);
+        setCandidateImage(candidate.image_url)
         setOpenModal(true);
     };
 
@@ -161,8 +166,8 @@ export default function Home({ positions, candidates, elections, currectElection
                                     name="email"
                                     className="mt-4"
                                     value={data.email}
-                                    onChange={e=>setData('email', e.target.value)}
-                                    onBlur={e=>checkEmail(e.target.value)}
+                                    onChange={e => setData('email', e.target.value)}
+                                    onBlur={e => checkEmail(e.target.value)}
                                 />
                                 {emailValid === false && (
                                     <p className="text-red-500">Email is not registered.</p>
@@ -196,13 +201,16 @@ export default function Home({ positions, candidates, elections, currectElection
                                                         alt="profile"
                                                         className='w-12 h-12 md:w-16 md:h-16 object-cover rounded-full inline'
                                                     />
-                                                    <span className="ml-2 text-lg text-gray-700">
+                                                    <span className="ml-2 text-lg text-gray-700 text-nowrap">
                                                         {candidate.name}
                                                     </span>
                                                 </label>
-                                                <PrimaryButton type="button" className='me-1' onClick={() => handleOpenModal(candidate)}>
+                                                <span className="p-2 rounded-md bg-green-900 text-gray-100 w-10 text-center cursor-pointer hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
+                                                    <i className="fa-regular fa-xl fa-file-lines"></i>
+                                                </span>
+                                                {/* <PrimaryButton type="button" className='me-1' onClick={() => handleOpenModal(candidate)}>
                                                     Platform
-                                                </PrimaryButton>
+                                                </PrimaryButton> */}
                                             </div>
                                         </div>
                                     ))}
@@ -220,15 +228,16 @@ export default function Home({ positions, candidates, elections, currectElection
                     </form>
                 )}
             </div>
-
             <Modal show={openModal} onClose={closeModal}>
                 <div className='p-6'>
-                    <h2 className="text-lg font-medium text-gray-900">
-                        {candidateName} - Platform
-                    </h2>
-                    <p className="mt-2 text-sm text-gray-600 indent-8">
-                        {candidatePlatform}
-                    </p>
+                    <div className="flex flex-col items-start bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl mx-auto">
+                        <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src={candidateImage} alt="profile" />
+                        <div className="flex flex-col justify-between p-4 leading-normal">
+                            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{electionName}</h5>
+                            <h5 className="mb-2 text-sm">{candidateName} {candidatePosition}</h5>
+                            <p className="mb-3 font-normal text-gray-700">{candidatePlatform}</p>
+                        </div>
+                    </div>
                     <div className="mt-6 flex justify-end">
                         <SecondaryButton onClick={closeModal}>Close</SecondaryButton>
                     </div>

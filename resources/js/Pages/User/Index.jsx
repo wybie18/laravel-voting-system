@@ -93,7 +93,7 @@ export default function Index({ auth, users, queryParams = null, success }) {
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Users</h2>
-                    <button type="button" onClick={handleCreateUser} className="bg-emerald-500 py-1 px-3 me-2 text-white rounded shadow transition-all hover:bg-emerald-600">
+                    <button type="button" onClick={handleCreateUser} className="bg-green-900 py-1 px-3 me-2 text-white rounded shadow transition-all hover:bg-green-700">
                         Add User
                     </button>
 
@@ -184,7 +184,9 @@ export default function Index({ auth, users, queryParams = null, success }) {
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination links={users.meta.links} />
+                            {users.data.length > 0 ? (
+                                <Pagination links={users.meta.links} />
+                            ) : null}
                         </div>
                     </div>
                 </div>

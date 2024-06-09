@@ -10,6 +10,7 @@ import TableHeading from "@/Components/TableHeading";
 import DeleteCandidateForm from "./Partials/DeleteCadidateForm";
 import EditCandidateForm from "./Partials/EditCandidateForm";
 import toast from "react-hot-toast";
+import ViewPlatformModal from "./Partials/ViewPlatformModal";
 
 export default function Index({ auth, candidates, queryParams = null, success }) {
     queryParams = queryParams || {};
@@ -18,6 +19,7 @@ export default function Index({ auth, candidates, queryParams = null, success })
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [viewPlatformModal, setViewPlatformModal] = useState(false);
 
     useEffect(() => {
         fetchActivePositions()
@@ -35,6 +37,11 @@ export default function Index({ auth, candidates, queryParams = null, success })
         setCreateModalOpen(true);
     };
 
+    const handleViewPlatform = (candidate) => {
+        setCandidateData(c => (c = candidate));
+        setViewPlatformModal(true);
+    };
+
     const handleEditCandidate = (candidate) => {
         setCandidateData(c => (c = candidate));
         setEditModalOpen(true);
@@ -49,6 +56,10 @@ export default function Index({ auth, candidates, queryParams = null, success })
         setCreateModalOpen(false);
     };
 
+    const closePlatformModal = () => {
+        setViewPlatformModal(false);
+    };
+
     const closeEditModal = () => {
         setEditModalOpen(false);
     };
@@ -58,9 +69,9 @@ export default function Index({ auth, candidates, queryParams = null, success })
     };
 
     const searchFieldChanged = (name, value) => {
-        if(value){
+        if (value) {
             queryParams[name] = value;
-        }else{
+        } else {
             delete queryParams[name];
         }
         router.get(route('candidate.index'), queryParams);
@@ -71,15 +82,15 @@ export default function Index({ auth, candidates, queryParams = null, success })
         searchFieldChanged(name, e.target.value)
     }
 
-    const sortChange = (name) =>{
-        if(name === queryParams.sort_field){
-            if(queryParams.sort_direction === 'asc'){
+    const sortChange = (name) => {
+        if (name === queryParams.sort_field) {
+            if (queryParams.sort_direction === 'asc') {
                 queryParams.sort_direction = 'desc';
             }
-            else{
+            else {
                 queryParams.sort_direction = 'asc';
             }
-        }else{
+        } else {
             queryParams.sort_field = name;
             queryParams.sort_direction = 'asc';
         }
@@ -102,7 +113,7 @@ export default function Index({ auth, candidates, queryParams = null, success })
             header={
                 <div className="flex items-center justify-between">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Candidates</h2>
-                    <button type="button" onClick={handleCreateCandidate} className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
+                    <button type="button" onClick={handleCreateCandidate} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">
                         Add Candidate
                     </button>
                 </div>
@@ -125,9 +136,7 @@ export default function Index({ auth, candidates, queryParams = null, success })
                                             <TableHeading name="name" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Name
                                             </TableHeading>
-                                            <TableHeading name="description" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
-                                                Platform
-                                            </TableHeading>
+                                            <th className="px-3 py-2">Platform</th>
                                             <TableHeading name="created_at" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Created Date
                                             </TableHeading>
@@ -170,10 +179,14 @@ export default function Index({ auth, candidates, queryParams = null, success })
                                                 <tr className="bg-white border-b" key={candidate.id}>
                                                     <td className="px-3 py-2">{candidate.id}</td>
                                                     <td className="px-3 py-2">
-                                                        <img src={candidate.image_url} alt="profile" className="w-14 h-14 object-cover"/>
+                                                        <img src={candidate.image_url} alt="profile" className="w-14 h-14 object-cover" />
                                                     </td>
                                                     <td className="px-3 py-2 text-nowrap">{candidate.name}</td>
-                                                    <td className="px-3 py-2">{candidate.description}</td>
+                                                    <td className="px-3 py-2">
+                                                        <span className="p-2 rounded-md bg-green-900 text-gray-100 w-16 text-center cursor-pointer hover:bg-green-700" onClick={()=>handleViewPlatform(candidate)}>
+                                                            <i className="fa-regular fa-xl fa-file-lines"></i>
+                                                        </span>
+                                                    </td>
                                                     <td className="px-3 py-2 text-nowrap">{candidate.created_at}</td>
                                                     <td className="px-3 py-2 text-nowrap">{candidate.updated_at}</td>
                                                     <td className="px-3 py-2 text-nowrap">{candidate.position.name}</td>
@@ -199,20 +212,23 @@ export default function Index({ auth, candidates, queryParams = null, success })
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="7" className="px-3 py-2 text-center">No data available</td>
+                                                <td colSpan="9" className="px-3 py-2 text-center">No data available</td>
                                             </tr>
                                         )}
                                     </tbody>
                                 </table>
                             </div>
-                            <Pagination links={candidates.meta.links} />
+                            {candidates.data.length > 0 ? (
+                                <Pagination links={candidates.meta.links} />
+                            ) : null}
                         </div>
                     </div>
                 </div>
             </div>
+            <ViewPlatformModal modalOpen={viewPlatformModal} closeModal={closePlatformModal} candidate={candidateData} />
             <CreateCandidateForm modalOpen={createModalOpen} closeModal={closeCreateModal} activePositions={activePositions} />
-            <EditCandidateForm modalOpen={editModalOpen} closeModal={closeEditModal} activePositions={activePositions} candidate={candidateData}/>
-            <DeleteCandidateForm modalOpen={deleteModalOpen} closeModal={closeDeleteModal} candidate={candidateData}/>
+            <EditCandidateForm modalOpen={editModalOpen} closeModal={closeEditModal} activePositions={activePositions} candidate={candidateData} />
+            <DeleteCandidateForm modalOpen={deleteModalOpen} closeModal={closeDeleteModal} candidate={candidateData} />
         </AdminAuthenticatedLayout>
     );
 }

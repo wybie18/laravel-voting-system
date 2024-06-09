@@ -35,14 +35,6 @@ class ElectionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return inertia("Election/Create");
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreElectionsRequest $request)
@@ -50,24 +42,6 @@ class ElectionController extends Controller
         $data = $request->validated();
         Elections::create($data);
         return to_route("election.index")->with('success', 'Election created successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Elections $elections)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Elections $election)
-    {
-        return inertia("Election/Edit", [
-            'election' => new ElectionResource($election),
-        ]);
     }
 
     /**
