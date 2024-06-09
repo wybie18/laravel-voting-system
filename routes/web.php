@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ElectionController;
@@ -23,6 +24,8 @@ Route::middleware(['auth', 'verified'])->group(function (){
     Route::resource('admin/voter', VoterController::class);
     Route::post('admin/voter/upload', [VoterController::class,'upload'])->name('voter.upload');
     // Route::resource('admin/votes', VoteController::class);
+    Route::get('admin/archive', [ArchiveController::class, 'index'])->name('archive.index');
+    Route::get('admin/archive/{archive}', [ArchiveController::class, 'show'])->name('archive.show');
     Route::resource('admin/user', UserController::class);
 });
 

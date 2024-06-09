@@ -24,3 +24,41 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+@media print {
+    html, body {
+        margin: 0;
+      }
+    main {
+        margin-top: 20mm; /* Adjust to your header height */
+        margin-bottom: 20mm; /* Adjust to your footer height */
+    }
+    .print-hide {
+        display: none;
+    }
+
+    .print-show {
+        display: block;
+    }
+    .page-break {
+        margin-top: 100mm;
+        display: block;
+        page-break-before: auto;
+    }
+    .printable-content {
+        page-break-inside: avoid;
+    }
+    .print-header, .print-footer {
+        position: fixed;
+        width: 100%;
+    }
+    .print-header {
+        top: 0;
+    }
+    .print-footer {
+        bottom: 0;
+    }
+    @page {
+        size: auto;
+        margin: 20mm;
+      }
+}
