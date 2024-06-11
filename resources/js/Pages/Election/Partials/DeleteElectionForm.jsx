@@ -19,6 +19,10 @@ export default function DeleteElectionForm({election, confirmingDeletion, closeM
             onFailure: () => {
                 toast.error("Failed to delete election")
                 setIsDeleting(false)
+            },
+            onFinish: () => {
+                closeModal()
+                setIsDeleting(false);
             }
         })
     }

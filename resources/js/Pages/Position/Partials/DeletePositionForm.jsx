@@ -19,6 +19,10 @@ export default function DeletePositionForm({modalOpen, closeModal, position}) {
             onFailure: () => {
                 toast.error("Failed to delete position")
                 setIsDeleting(false);
+            },
+            onFinish: () => {
+                closeModal()
+                setIsDeleting(false);
             }
         })
     }

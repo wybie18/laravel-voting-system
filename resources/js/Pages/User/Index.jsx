@@ -9,7 +9,7 @@ import CreateUserForm from './Partials/CreateUserForm';
 import EditUserForm from './Partials/EditUserForm';
 import DeleteUserForm from './Partials/DeleteUserForm';
 
-export default function Index({ auth, users, queryParams = null, success }) {
+export default function Index({ auth, users, roles, queryParams = null, success }) {
     queryParams = queryParams || {};
     const [userData, setUserData] = useState();
     const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -86,6 +86,7 @@ export default function Index({ auth, users, queryParams = null, success }) {
         handleSuccess(success);
     }, [success]);
 
+    const capitalize = s => s && s[0].toUpperCase() + s.slice(1)
 
     return (
         <AdminAuthenticatedLayout
@@ -119,6 +120,7 @@ export default function Index({ auth, users, queryParams = null, success }) {
                                             <TableHeading name="email" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Email
                                             </TableHeading>
+                                            <th className="px-3 py-2">Role</th>
                                             <TableHeading name="created_at" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Created Date
                                             </TableHeading>
@@ -153,6 +155,7 @@ export default function Index({ auth, users, queryParams = null, success }) {
                                                 </th>
                                                 <th className="px-3 py-2"></th>
                                                 <th className="px-3 py-2"></th>
+                                                <th className="px-3 py-2"></th>
                                                 <th className="px-3 py-2 text-right"></th>
                                             </tr>
                                         </thead>) : null
@@ -164,6 +167,9 @@ export default function Index({ auth, users, queryParams = null, success }) {
                                                     <td className="px-3 py-2">{user.id}</td>
                                                     <td className="px-3 py-2 text-nowrap">{user.name}</td>
                                                     <td className="px-3 py-2">{user.email}</td>
+                                                    <td className="px-3 py-2 text-nowrap">
+                                                        {capitalize(user.roles.join(', '))}
+                                                    </td>
                                                     <td className="px-3 py-2 text-nowrap">{user.created_at}</td>
                                                     <td className="px-3 py-2 text-nowrap">{user.updated_at}</td>
                                                     <td className="px-3 py-2 text-right">
@@ -191,8 +197,8 @@ export default function Index({ auth, users, queryParams = null, success }) {
                     </div>
                 </div>
             </div>
-            <CreateUserForm modalOpen={createModalOpen} closeModal={closeCreateModal} />
-            <EditUserForm modalOpen={editModalOpen} closeModal={closeEditModal} user={userData} />
+            <CreateUserForm modalOpen={createModalOpen} closeModal={closeCreateModal} roles={roles}/>
+            <EditUserForm modalOpen={editModalOpen} closeModal={closeEditModal} user={userData} roles={roles}/>
             <DeleteUserForm modalOpen={deleteModalOpen} closeModal={closeDeleteModal} user={userData} />
         </AdminAuthenticatedLayout>
     );

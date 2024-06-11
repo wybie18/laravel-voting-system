@@ -19,6 +19,10 @@ export default function DeleteCandidateForm({modalOpen, closeModal, candidate}) 
             onFailure: () => {
                 toast.error("Failed to delete candidate")
                 setIsDeleting(false);
+            },
+            onFinish: () => {
+                closeModal()
+                setIsDeleting(false);
             }
         })
     }

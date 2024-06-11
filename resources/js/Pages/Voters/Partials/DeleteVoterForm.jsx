@@ -19,6 +19,10 @@ export default function DeleteVoterForm({modalOpen, closeModal, voter}) {
             onFailure: () => {
                 toast.error(`Failed to delete voter "${voter.name}"`)
                 setIsDeleting(false);
+            },
+            onFinish: () => {
+                closeModal()
+                setIsDeleting(false);
             }
         })
     }

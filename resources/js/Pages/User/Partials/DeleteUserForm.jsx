@@ -19,6 +19,10 @@ export default function DeleteUserForm({modalOpen, closeModal, user}) {
             onFailure: () => {
                 toast.error(`Failed to delete user "${user.name}"`)
                 setIsDeleting(false);
+            },
+            onFinish: () => {
+                closeModal()
+                setIsDeleting(false);
             }
         })
     }

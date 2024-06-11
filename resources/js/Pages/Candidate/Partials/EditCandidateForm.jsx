@@ -54,7 +54,7 @@ export default function EditCandidateForm({ modalOpen, closeModal, activePositio
             image: data.image,
         }, {
             preserveScroll: true,
-            onSuccess: (page) => {
+            onSuccess: () => {
                 reset();
                 closeModal();
                 setIsUpdating(false)
@@ -63,6 +63,9 @@ export default function EditCandidateForm({ modalOpen, closeModal, activePositio
                 handleErrors(errors);
                 setIsUpdating(false)
             },
+            onFinish: () => {
+                setIsUpdating(false)
+            }
         });
     };
 
@@ -73,13 +76,13 @@ export default function EditCandidateForm({ modalOpen, closeModal, activePositio
                     Edit candidate {candidate ? ` - ${candidate.name}` : ""}
                 </h2>
                 <div className="mt-4 text-center">
-                    <img src={candidate ? ` ${candidate.image_url}` : ""} alt="" className="w-24 h-24 object-cover rounded-full mb-4" />
+                    <img src={candidate ? ` ${candidate.image_url}` : ""} alt="profile" className="w-40 h-40 object-cover rounded-lg mb-4" />
                 </div>
                 <div className="mt-4">
                     <InputLabel htmlFor="candidate_image" value="Candidate Image" />
                     <TextInput
                         type="file"
-                        className="mt-1 block w-full p-2 border"
+                        className="mt-1 block w-full p-2 border-green-500"
                         id="candidate_image"
                         name="image"
                         onChange={e => setData('image', e.target.files[0])}
@@ -110,7 +113,7 @@ export default function EditCandidateForm({ modalOpen, closeModal, activePositio
                     />
                     <InputError message={errors.platform} className="mt-2" />
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 mb-8">
                     <InputLabel htmlFor="position_id" value="Positions" />
                     <SelectInput
                         className="mt-1 block w-full"

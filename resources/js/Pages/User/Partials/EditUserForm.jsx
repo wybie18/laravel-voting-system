@@ -3,16 +3,18 @@ import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function EditUserForm({modalOpen, closeModal, user}) {
+export default function EditUserForm({modalOpen, closeModal, user, roles}) {
     const { data, setData, put, processing, errors, reset } = useForm({
         name: '',
         email: '',
+        role: '',
         password: '',
         password_confirmation: '',
     })
@@ -21,6 +23,7 @@ export default function EditUserForm({modalOpen, closeModal, user}) {
             setData({
                 name: user.name,
                 email: user.email,
+                role: user.roles
             });
         }
     }, [user])
@@ -48,6 +51,9 @@ export default function EditUserForm({modalOpen, closeModal, user}) {
             onError: (errors) => handleErrors(errors),
         })
     }
+
+    const capitalize = s => s && s[0].toUpperCase() + s.slice(1)
+
     return (
         <Modal show={modalOpen} onClose={closeModal}>
             <form onSubmit={(e) => onSubmit(e, user.id)} className="p-6">
@@ -78,6 +84,24 @@ export default function EditUserForm({modalOpen, closeModal, user}) {
                             onChange={(e) => setData('email', e.target.value)}
                         />
                         <InputError message={errors.email} className="mt-2" />
+                    </div>
+                    <div className="mt-4">
+                        <InputLabel htmlFor="user_role" value="User Role" />
+                        <SelectInput
+                            className="mt-1 block w-full"
+                            id="user_role"
+                            name="role"
+                            value={data.role}
+                            onChange={(e) => setData('role', e.target.value)}
+                        >
+                            <option value="" hidden>Select Role</option>
+                            {roles.map((role) => (
+                                <option key={role.name} value={role.name}>
+                                    {capitalize(role.name)}
+                                </option>
+                            ))}
+                        </SelectInput>
+                        <InputError message={errors.role} className="mt-2" />
                     </div>
                     <div className="mt-4">
                         <InputLabel htmlFor="user_password" value="New User Password ( Optional )" />

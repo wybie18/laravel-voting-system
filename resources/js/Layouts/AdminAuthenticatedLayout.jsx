@@ -37,9 +37,12 @@ export default function AdminAuthenticatedLayout({ user, header, children }) {
                                 <NavLink href={route('voter.index')} active={route().current('voter.index')}>
                                     Voters
                                 </NavLink>
-                                <NavLink href={route('user.index')} active={route().current('user.index')}>
-                                    Users
-                                </NavLink>
+                                {user.roles[0].name == 'admin' &&
+                                    <NavLink href={route('user.index')} active={route().current('user.index')}>
+                                        Users
+                                    </NavLink>
+                                }
+
                             </div>
                         </div>
 
@@ -124,9 +127,11 @@ export default function AdminAuthenticatedLayout({ user, header, children }) {
                         <ResponsiveNavLink href={route('voter.index')} active={route().current('voter.index')}>
                             Voters
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('user.index')} active={route().current('user.index')}>
-                            Users
-                        </ResponsiveNavLink>
+                        {user.roles[0].name == 'admin' &&
+                            <ResponsiveNavLink href={route('user.index')} active={route().current('user.index')}>
+                                Users
+                            </ResponsiveNavLink>
+                        }
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">

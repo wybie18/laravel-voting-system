@@ -3,7 +3,6 @@ import { useReactToPrint } from 'react-to-print';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { Bar } from 'react-chartjs-2';
-import DashboardPrint from '@/Components/DashboardPrint';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -193,54 +192,56 @@ export default function Dashboard({ auth, initialData }) {
                             </div>
                         </div>
                     </div>
-                    <div ref={contentToPrint}>
-                        {data.elections.map(election => (
-                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" key={election.id}>
-                                <div className="p-6 text-gray-900">
-                                    <div className="mb-8">
-                                        <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
-                                        <table className="min-w-full mb-4 border-collapse border border-gray-200">
-                                            <thead>
-                                                <tr>
-                                                    <th className="px-4 py-2 border">Position</th>
-                                                    <th className="px-4 py-2 border">Candidate</th>
-                                                    <th className="px-4 py-2 border">Votes</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {election.positions.map(position => {
-                                                    const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
-                                                    return sortedCandidates.map((candidate, index) => {
-                                                        let bgColor = '';
-                                                        if (index === 0) bgColor = 'bg-green-400'; // 1st place
+                    {data.elections.length > 0 ? (
+                        <div ref={contentToPrint}>
+                            {data.elections.map(election => (
+                                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" key={election.id}>
+                                    <div className="p-6 text-gray-900">
+                                        <div className="mb-8">
+                                            <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
+                                            <table className="min-w-full mb-4 border-collapse border border-gray-200">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="px-4 py-2 border">Position</th>
+                                                        <th className="px-4 py-2 border">Candidate</th>
+                                                        <th className="px-4 py-2 border">Votes</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {election.positions.map(position => {
+                                                        const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
+                                                        return sortedCandidates.map((candidate, index) => {
+                                                            let bgColor = '';
+                                                            if (index === 0) bgColor = 'bg-green-400'; // 1st place
 
-                                                        return (
-                                                            <tr key={candidate.id}>
-                                                                {index === 0 && (
-                                                                    <td className="px-4 py-2 border" rowSpan={sortedCandidates.length}>
-                                                                        {position.name}
-                                                                    </td>
-                                                                )}
-                                                                <td className="px-4 py-2 border">{candidate.name}</td>
-                                                                <td className={`px-4 py-2 border ${bgColor}`}>{candidate.votes_count}</td>
-                                                            </tr>
-                                                        );
-                                                    });
-                                                })}
-                                            </tbody>
-                                        </table>
-                                        <div className='grid lg:grid-cols-2 grid-cols-1 gap-8 mt-8'>
-                                            {election.positions.map(position => (
-                                                <div key={position.id} className="mb-8">
-                                                    <Bar data={createChartData(position)} options={chartOptions(position.name)} className='border py-1 px-2' />
-                                                </div>
-                                            ))}
+                                                            return (
+                                                                <tr key={candidate.id}>
+                                                                    {index === 0 && (
+                                                                        <td className="px-4 py-2 border" rowSpan={sortedCandidates.length}>
+                                                                            {position.name}
+                                                                        </td>
+                                                                    )}
+                                                                    <td className="px-4 py-2 border">{candidate.name}</td>
+                                                                    <td className={`px-4 py-2 border ${bgColor}`}>{candidate.votes_count}</td>
+                                                                </tr>
+                                                            );
+                                                        });
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                            <div className='grid lg:grid-cols-2 grid-cols-1 gap-8 mt-8'>
+                                                {election.positions.map(position => (
+                                                    <div key={position.id} className="mb-8">
+                                                        <Bar data={createChartData(position)} options={chartOptions(position.name)} className='border py-1 px-2' />
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                    ) : <h2 className='text-center mt-4 text-lg text-gray-700'>There are currently no active elections.</h2>}
                 </div>
             </div>
         </AdminAuthenticatedLayout>

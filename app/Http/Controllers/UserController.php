@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -14,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $query = User::query()->where('id', '!=', auth()->id());
+        $query = User::with('roles')->where('id', '!=', auth()->id());
 
         $sortField = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
@@ -27,8 +28,10 @@ class UserController extends Controller
         }
 
         $voters = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
+        $roles = Role::all();
         return inertia("User/Index", [
             "users" => UserResource::collection($voters),
+            "roles" => $roles,
             "queryParams" => request()->query() ?: null,
             "success" => session('success'),
         ]);
@@ -42,7 +45,9 @@ class UserController extends Controller
         $data = $request->validated();
         $data['email_verified_at'] = time();
         $data['password'] = bcrypt($data['password']);
-        User::create($data);
+        $user = User::create($data);
+
+        $user->assignRole($data['role']);
 
         return to_route('user.index')->with('success', 'User created successfully');
     }

@@ -150,7 +150,12 @@ export default function Home({ positions, candidates, elections, currectElection
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                         <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
                             <div className="p-6 text-gray-900">
-                                <p>No active election found.</p>
+                                <div class="p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+                                    {elections.length === 0 ?
+                                        <span><span className='font-semibold'>Election Update:</span> No current elections available. Stay tuned for upcoming polls!</span> :
+                                        <span><span className='font-semibold'>Oops!</span> It looks like the election you're trying to access doesn't exist. Please check the URL or navigate back to the homepage.</span>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,6 +171,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                     id="voter_email"
                                     name="email"
                                     className="mt-4"
+                                    placeholder="Email"
                                     value={data.email}
                                     onChange={e => setData('email', e.target.value)}
                                     onBlur={e => checkEmail(e.target.value)}
