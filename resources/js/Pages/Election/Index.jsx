@@ -149,7 +149,7 @@ export default function Index({ auth, elections, queryParams = null, success }) 
                                                         defaultValue={queryParams.status}
                                                         onChange={e => searchFieldChanged('status', e.target.value)}
                                                     >
-                                                        <option value="" selected hidden>Select Status</option>
+                                                        <option value=""hidden>Select Status</option>
                                                         <option value="">All</option>
                                                         <option value="1">Active</option>
                                                         <option value="0">Inactive</option>

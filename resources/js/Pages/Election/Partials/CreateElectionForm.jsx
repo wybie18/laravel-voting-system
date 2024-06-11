@@ -7,6 +7,7 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function CreateElectionForm({ modalOpen, closeModal }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -88,10 +89,11 @@ export default function CreateElectionForm({ modalOpen, closeModal }) {
                         className="mt-1 block w-full"
                         id="election_status"
                         name="status"
+                        defaultValue=""
                         value={data.is_active}
                         onChange={e => setData('is_active', e.target.value)}
                     >
-                        <option value="" selected hidden>Select Status</option>
+                        <option value="" hidden>Select Status</option>
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
                     </SelectInput>
@@ -101,7 +103,16 @@ export default function CreateElectionForm({ modalOpen, closeModal }) {
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>
 
                     <PrimaryButton type="submit" className="ms-3" disabled={processing}>
-                        Submit
+                        {processing ? <ThreeDots
+                            visible={true}
+                            height="10"
+                            width="40"
+                            color="#D1D5DB"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        /> : "Submit"}
                     </PrimaryButton>
                 </div>
             </form>

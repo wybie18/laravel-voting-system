@@ -7,10 +7,12 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import Textarea from "@/Components/Textarea";
 import { router, useForm } from "@inertiajs/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { ThreeDots } from "react-loader-spinner";
 
-export default function EditCandidateForm({modalOpen, closeModal, activePositions, candidate}) {
+export default function EditCandidateForm({ modalOpen, closeModal, activePositions, candidate }) {
+    const [isUpdating, setIsUpdating] = useState(false)
     const { data, setData, post, processing, errors, reset } = useForm({
         image: '',
         name: '',
@@ -18,8 +20,8 @@ export default function EditCandidateForm({modalOpen, closeModal, activePosition
         position_id: '',
     });
 
-     useEffect(() => {
-        if(candidate){
+    useEffect(() => {
+        if (candidate) {
             setData({
                 name: candidate.name,
                 platform: candidate.platform,
@@ -43,6 +45,7 @@ export default function EditCandidateForm({modalOpen, closeModal, activePosition
     }
     const onSubmit = (e, id) => {
         e.preventDefault();
+        setIsUpdating(true)
         router.post(route("candidate.update", id), {
             _method: 'PUT',
             name: data.name,
@@ -54,13 +57,15 @@ export default function EditCandidateForm({modalOpen, closeModal, activePosition
             onSuccess: (page) => {
                 reset();
                 closeModal();
+                setIsUpdating(false)
             },
             onError: (errors) => {
                 handleErrors(errors);
+                setIsUpdating(false)
             },
         });
     };
-    
+
     return (
         <Modal show={modalOpen} onClose={closeModal}>
             <form onSubmit={(e) => onSubmit(e, candidate.id)} className="p-6">
@@ -128,8 +133,17 @@ export default function EditCandidateForm({modalOpen, closeModal, activePosition
                 <div className="mt-6 flex justify-end">
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>
 
-                    <PrimaryButton type="submit" className="ms-3" disabled={processing}>
-                        Submit
+                    <PrimaryButton type="submit" className="ms-3" disabled={isUpdating}>
+                        {isUpdating ? <ThreeDots
+                            visible={true}
+                            height="10"
+                            width="40"
+                            color="#D1D5DB"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        /> : "Submit"}
                     </PrimaryButton>
                 </div>
             </form>

@@ -4,6 +4,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function DeleteVoterForm({modalOpen, closeModal, voter}) {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -32,7 +33,16 @@ export default function DeleteVoterForm({modalOpen, closeModal, voter}) {
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>
 
                     <DangerButton type="button" className="ms-3" onClick={e => deleteCandidate(voter)} disabled={isDeleting}>
-                        Delete
+                        {isDeleting ? <ThreeDots
+                            visible={true}
+                            height="10"
+                            width="40"
+                            color="#D1D5DB"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        /> : "Delete"}
                     </DangerButton>
                 </div>
             </div>

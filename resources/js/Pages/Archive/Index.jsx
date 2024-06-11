@@ -20,8 +20,8 @@ export default function Index({ auth, elections }) {
                     {activeElections.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {activeElections.map(election => (
-                                <Link href={route('archive.show', election.id)}>
-                                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                                <Link href={route('archive.show', election.id)}  key={election.id}>
+                                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:bg-gray-100">
                                         <div className="p-6">
                                             <h3 className="text-lg font-semibold tracking-wider text-gray-800">{election.name}</h3>
                                             <p className="text-sm mt-2 text-nowrap text-gray-500">{new Date(election.start_date).toLocaleDateString("en-US", options)}</p>
@@ -41,8 +41,8 @@ export default function Index({ auth, elections }) {
                     {inactiveElections.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {inactiveElections.map(election => (
-                                <Link href={route('archive.show', election.id)}>
-                                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                                <Link href={route('archive.show', election.id)} key={election.id}>
+                                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:bg-gray-100">
                                         <div className="p-6">
                                             <h3 className="text-lg font-semibold tracking-wider text-gray-800">{election.name}</h3>
                                             <p className="text-sm mt-2 text-nowrap text-gray-500">{new Date(election.start_date).toLocaleDateString("en-US", options)}</p>

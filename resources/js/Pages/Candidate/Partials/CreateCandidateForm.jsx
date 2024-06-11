@@ -7,8 +7,8 @@ import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
 import Textarea from "@/Components/Textarea";
 import { useForm } from "@inertiajs/react";
-import { useState } from "react";
 import toast from "react-hot-toast";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function CreateCandidateForm({modalOpen, closeModal, activePositions}) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -105,7 +105,16 @@ export default function CreateCandidateForm({modalOpen, closeModal, activePositi
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>
 
                     <PrimaryButton type="submit" className="ms-3" disabled={processing}>
-                        Submit
+                        {processing ? <ThreeDots
+                            visible={true}
+                            height="10"
+                            width="40"
+                            color="#D1D5DB"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        /> : "Submit"}
                     </PrimaryButton>
                 </div>
             </form>

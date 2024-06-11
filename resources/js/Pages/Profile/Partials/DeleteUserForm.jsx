@@ -6,6 +6,7 @@ import Modal from '@/Components/Modal';
 import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function DeleteUserForm({ className = '' }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
@@ -89,7 +90,16 @@ export default function DeleteUserForm({ className = '' }) {
                         <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
 
                         <DangerButton className="ms-3" disabled={processing}>
-                            Delete Account
+                            {processing ? <ThreeDots
+                                visible={true}
+                                height="10"
+                                width="40"
+                                color="#D1D5DB"
+                                radius="9"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                            /> : "Delete Account"}
                         </DangerButton>
                     </div>
                 </form>

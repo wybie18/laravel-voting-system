@@ -25,7 +25,6 @@ class VoteController extends Controller
             if ($activeElection) {
                 $activeElectionId = $activeElection->id;
             } else {
-                // Handle the case where no active election is found
                 return inertia('Home', [
                     "positions" => collect(),
                     "candidates" => collect(),
@@ -40,8 +39,7 @@ class VoteController extends Controller
         ->with('position')
         ->get();
         $activeCandidates = CandidateResource::collection($candidates);
-    
-        // Get positions for the active election
+
         $positions = Positions::with('election')
             ->whereHas('election', function ($query) use ($activeElectionId) {
                 $query->where('id', $activeElectionId);

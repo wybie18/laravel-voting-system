@@ -6,6 +6,7 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function CreateUserForm({ modalOpen, closeModal }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -109,7 +110,16 @@ export default function CreateUserForm({ modalOpen, closeModal }) {
                     </SecondaryButton>
 
                     <PrimaryButton type="submit" className="ms-3" disabled={processing}>
-                        Submit
+                        {processing ? <ThreeDots
+                            visible={true}
+                            height="10"
+                            width="40"
+                            color="#D1D5DB"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        /> : "Submit"}
                     </PrimaryButton>
                 </div>
             </form>

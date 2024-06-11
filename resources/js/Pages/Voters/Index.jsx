@@ -105,7 +105,7 @@ export default function Index({ auth, voters, queryParams = null, success }) {
                             Add Voter
                         </button>
                         <button type="button" onClick={handleUploadVoter} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">
-                            <i class="fa-solid fa-upload"></i>
+                            <i className="fa-solid fa-upload"></i>
                         </button>
                     </div>
 

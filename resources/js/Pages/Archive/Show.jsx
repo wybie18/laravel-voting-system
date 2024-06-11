@@ -14,6 +14,7 @@ import {
 } from "chart.js";
 import SecondaryButton from '@/Components/SecondaryButton';
 import PrimaryButton from '@/Components/PrimaryButton';
+import plugin from '@tailwindcss/forms';
 
 ChartJS.register(
     CategoryScale,
@@ -37,29 +38,54 @@ export default function Show({ auth, election }) {
         const labels = position.candidates.map(candidate => candidate.name);
         const data = position.candidates.map(candidate => candidate.votes_count);
 
+        const borderColors = [
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+        ];
+
         return {
             labels,
             datasets: [
                 {
                     label: 'Vote Count',
                     data,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(74, 222, 128, 0.5)',
+                    borderColor: borderColors.slice(0, data.length),
                     borderWidth: 1,
                 },
             ],
         };
     };
 
-    const chartOptions = {
-        scales: {
-            y: {
-                ticks: {
-                    beginAtZero: true,
-                    stepSize: 1,
-                }
-            }
-        }
+    const chartOptions = (name) => {
+        return {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "bottom"
+                },
+                title: {
+                    display: true,
+                    text: name,
+                    font: {
+                        size: 20
+                    },
+                    position: "top"
+                },
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1,
+                    },
+                },
+            },
+        };
     };
 
     return (
@@ -74,7 +100,9 @@ export default function Show({ auth, election }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 space-x-2">
                             <Link href={route('archive.index')}><SecondaryButton> Go Back </SecondaryButton></Link>
-                            <PrimaryButton onClick={handlePrint}>PRINT</PrimaryButton>
+                            <PrimaryButton onClick={handlePrint}>
+                                <i className="fa-solid fa-print inline"></i><span className='ml-2'>Print</span>
+                            </PrimaryButton>
                         </div>
                     </div>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" ref={contentToPrint}>
@@ -112,11 +140,10 @@ export default function Show({ auth, election }) {
                                         })}
                                     </tbody>
                                 </table>
-                                <div className='grid md:grid-cols-2 grid-cols-1 gap-8'>
+                                <div className='grid md:grid-cols-2 grid-cols-1 gap-8 mt-8'>
                                     {election.positions.map(position => (
                                         <div key={position.id} className="mb-8">
-                                            <h3 className="text-lg font-semibold mb-4">{position.name}</h3>
-                                            <Bar data={createChartData(position)} options={chartOptions} className='border p-1' />
+                                            <Bar data={createChartData(position)} options={chartOptions(position.name)} className='border py-1 px-2' />
                                         </div>
                                     ))}
                                 </div>

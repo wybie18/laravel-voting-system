@@ -8,16 +8,17 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { ThreeDots } from "react-loader-spinner";
 
-export default function EditElectionForm({ modalOpen, closeModal, election}) {
+export default function EditElectionForm({ modalOpen, closeModal, election }) {
     const { data, setData, put, processing, errors, reset } = useForm({
         name: '',
         is_active: '',
         start_date: '',
         end_date: '',
     })
-    useEffect(()=>{
-        if(election){
+    useEffect(() => {
+        if (election) {
             setData({
                 name: election.name,
                 is_active: election.is_active,
@@ -52,7 +53,7 @@ export default function EditElectionForm({ modalOpen, closeModal, election}) {
     }
     return (
         <Modal show={modalOpen} onClose={closeModal}>
-            <form onSubmit={(e) => {onSubmit(e, election.id)}} className="p-6">
+            <form onSubmit={(e) => { onSubmit(e, election.id) }} className="p-6">
                 <h2 className="text-lg font-medium text-gray-900">
                     Create new election
                 </h2>
@@ -112,7 +113,16 @@ export default function EditElectionForm({ modalOpen, closeModal, election}) {
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>
 
                     <PrimaryButton type="submit" className="ms-3" disabled={processing}>
-                        Submit
+                        {processing ? <ThreeDots
+                            visible={true}
+                            height="10"
+                            width="40"
+                            color="#D1D5DB"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        /> : "Submit"}
                     </PrimaryButton>
                 </div>
             </form>

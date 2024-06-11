@@ -8,6 +8,7 @@ import { Head, useForm } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { ThreeDots } from 'react-loader-spinner';
 
 export default function Home({ positions, candidates, elections, currectElectionId, success }) {
     const electionName = elections.filter(election => election.id == currectElectionId).map(election => election.name)
@@ -137,7 +138,7 @@ export default function Home({ positions, candidates, elections, currectElection
 
     return (
         <CustomLayout
-            header={<h1>Home</h1>}
+            header={<h1>{electionName}</h1>}
             links={elections}
         >
             <Head>
@@ -205,8 +206,11 @@ export default function Home({ positions, candidates, elections, currectElection
                                                         {candidate.name}
                                                     </span>
                                                 </label>
-                                                <span className="p-2 rounded-md bg-green-900 text-gray-100 w-10 text-center cursor-pointer hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
-                                                    <i className="fa-regular fa-xl fa-file-lines"></i>
+                                                <span className="py-1 px-2 rounded-md bg-green-900 text-gray-100 text-center cursor-pointer hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
+                                                    <i className="fa-solid fa-md fa-magnifying-glass inline"></i>
+                                                    <span className="ml-2 text-gray-100 hidden sm:inline">
+                                                        Platform
+                                                    </span>
                                                 </span>
                                                 {/* <PrimaryButton type="button" className='me-1' onClick={() => handleOpenModal(candidate)}>
                                                     Platform
@@ -267,9 +271,23 @@ export default function Home({ positions, candidates, elections, currectElection
                             </p>
                         </div>
                     ))}
+                    <div class="p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+                        <span className='font-medium'>Please note:</span> Once your vote is submitted, it cannot be modified or updated. Ensure your choice is final before confirming.
+                    </div>
                     <div className="mt-6 flex justify-end">
                         <SecondaryButton onClick={closePreviewModal} className='mr-2'>Go Back</SecondaryButton>
-                        <PrimaryButton onClick={handleConfirm} disabled={processing}>Confirm</PrimaryButton>
+                        <PrimaryButton onClick={handleConfirm} disabled={processing}>
+                            {processing ? <ThreeDots
+                                visible={true}
+                                height="10"
+                                width="40"
+                                color="#4fa94d"
+                                radius="9"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                wrapperClass=""
+                            /> : "Confirm"}
+                        </PrimaryButton>
                     </div>
                 </div>
             </Modal>
