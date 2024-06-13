@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useReactToPrint } from 'react-to-print';
 import AdminAuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { Bar } from 'react-chartjs-2';
@@ -12,6 +11,7 @@ import {
     Legend,
     Title
 } from "chart.js";
+import PrintComponent from '@/Components/PrintComponent';
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -23,13 +23,6 @@ ChartJS.register(
 
 export default function Dashboard({ auth, initialData }) {
     const [data, setData] = useState(initialData);
-    const contentToPrint = useRef(null);
-
-    const handlePrint = useReactToPrint({
-        content: () => contentToPrint.current,
-        documentTitle: `SFXC - Election Data`,
-        removeAfterPrint: true,
-    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -104,11 +97,6 @@ export default function Dashboard({ auth, initialData }) {
             header={
                 <div className='flex items-center justify-between'>
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-                    {data.elections.length > 0 && (
-                        <button type="button" onClick={handlePrint} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">
-                            <i className="fa-solid fa-print inline"></i><span className='ml-2'>Print</span>
-                        </button>
-                    )}
                 </div>
             }
         >
@@ -195,23 +183,29 @@ export default function Dashboard({ auth, initialData }) {
                         </div>
                     </div>
                     {data.elections.length > 0 ? (
-                        <div ref={contentToPrint}>
-                            {data.elections.map(election => (
-                                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" key={election.id}>
-                                    <div className="p-6 text-gray-900">
-                                        <div className="mb-8">
-                                            <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
-                                            <div className="overflow-auto">
-                                                <table className="min-w-full mb-4 border-collapse border border-gray-200">
-                                                    <thead>
+                        data.elections.map(election => (
+                            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" key={election.id}>
+                                <div className="p-6 text-gray-900">
+                                    <div className="mb-8">
+                                        <div className="overflow-auto">
+                                            <div className="print-header text-center">
+                                                <img className="mx-auto w-32 object-cover" src="/logo.png" alt="logo" />
+                                                <img className="mx-auto w-72 object-cover" src="/xavier_name.png" alt="logo" />
+                                            </div>
+                                            <PrintComponent>
+                                                <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
+                                                <table className="table-auto min-w-full mb-4 border-collapse border-gray-200">
+                                                    <thead className='text-md text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500'>
                                                         <tr>
-                                                            <th className="px-4 py-2 border">Position</th>
-                                                            <th className="px-4 py-2 border">Candidate</th>
-                                                            <th className="px-4 py-2 border">Votes</th>
+                                                            <th className="px-4 py-2 text-left">Position</th>
+                                                            <th className="px-4 py-2 text-left">Candidate</th>
+                                                            <th className="px-4 py-2 w-40">Vote Count</th>
+                                                            <th className='px-4 py-2 w-32'>Rank</th> {/* Added Rank header */}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {election.positions.map(position => {
+                                                            // Sort candidates by votes_count in descending order
                                                             const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
                                                             return sortedCandidates.map((candidate, index) => {
                                                                 let bgColor = '';
@@ -220,31 +214,32 @@ export default function Dashboard({ auth, initialData }) {
                                                                 return (
                                                                     <tr key={candidate.id}>
                                                                         {index === 0 && (
-                                                                            <td className="px-4 py-2 border" rowSpan={sortedCandidates.length}>
+                                                                            <td className="px-4 py-2 border-b border-r font-medium" rowSpan={sortedCandidates.length}>
                                                                                 {position.name}
                                                                             </td>
                                                                         )}
-                                                                        <td className="px-4 py-2 border text-nowrap">{candidate.name}</td>
-                                                                        <td className={`px-4 py-2 border ${bgColor}`}>{candidate.votes_count}</td>
+                                                                        <td className="px-4 py-2 border-b">{candidate.name}</td>
+                                                                        <td className="px-4 py-2 border-b text-center">{candidate.votes_count}</td>
+                                                                        <td className={`px-4 py-2 border-b text-center ${bgColor}`}>{index + 1}</td> {/* Added Rank column */}
                                                                     </tr>
                                                                 );
                                                             });
                                                         })}
                                                     </tbody>
                                                 </table>
-                                            </div>
-                                            <div className='grid lg:grid-cols-2 grid-cols-1 gap-8 mt-8'>
-                                                {election.positions.map(position => (
-                                                    <div key={position.id} className="mb-8">
-                                                        <Bar data={createChartData(position)} options={chartOptions(position.name)} className='border py-1 px-2' />
-                                                    </div>
-                                                ))}
-                                            </div>
+                                            </PrintComponent>
+                                        </div>
+                                        <div className='grid lg:grid-cols-2 grid-cols-1 gap-8 mt-8'>
+                                            {election.positions.map(position => (
+                                                <div key={position.id} className="mb-8">
+                                                    <Bar data={createChartData(position)} options={chartOptions(position.name)} className='border py-1 px-2' />
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))
                     ) : <h2 className='text-center mt-4 text-lg text-gray-700'>There are currently no active elections.</h2>}
                 </div>
             </div>

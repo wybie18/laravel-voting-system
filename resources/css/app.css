@@ -8,56 +8,53 @@
 ::-webkit-scrollbar {
     width: 10px;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888;
 }
- 
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-.sfxc-bg-image{
+
+.sfxc-bg-image {
     background-color: darkgreen;
     background-image: url(/storage/app/public/image/background/XavierBuilding.png);
     background-size: cover;
 }
+
 @media print {
-    html, body {
+
+    html,
+    body {
         margin: 0;
-      }
-    main {
-        margin-top: 20mm; /* Adjust to your header height */
-        margin-bottom: 20mm; /* Adjust to your footer height */
-    }
-    .print-hide {
-        display: none;
     }
 
-    .print-show {
-        display: block;
-    }
     .page-break {
         margin-top: 100mm;
         display: block;
         page-break-before: auto;
     }
-    .printable-content {
-        page-break-inside: avoid;
-    }
-    .print-header, .print-footer {
-        position: fixed;
-        width: 100%;
-    }
-    .print-header {
-        top: 0;
-    }
-    .print-footer {
-        bottom: 0;
-    }
+
     @page {
         size: auto;
-        margin: 20mm;
-      }
+        margin: 0 20mm 20mm 20mm;
+    }
+}
+
+.print-preview-button {
+    @media print {
+        display: none;
+    }
+}
+
+.print-header {
+    display: none;
+
+    @media print {
+        display: inline;
+        margin: 0 20mm 20mm 20mm;
+    }
 }

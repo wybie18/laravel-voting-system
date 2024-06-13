@@ -33,6 +33,10 @@ class VotersImport implements ToModel, WithHeadingRow, WithValidation
 
         return $voter;
     }
+    // public function headingRow(): int
+    // {
+    //     return 4;
+    // }
 
     /**
      * @return array

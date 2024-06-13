@@ -3,7 +3,6 @@ import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
-import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
@@ -48,8 +47,23 @@ export default function UploadVoterForm({ modalOpen, closeModal }) {
         <Modal show={modalOpen} onClose={handleOnClose}>
             <form onSubmit={onSubmit} className="p-6">
                 <h2 className="text-lg font-medium text-gray-900">
-                    Create new voter
+                    Upload Excel File
                 </h2>
+                <p className="mt-2 text-sm text-gray-600">
+                    Please upload an excel file containing voter information.
+                </p>
+                <h5 className="mt-2 mb-2 text-md font-medium text-gray-900">
+                    Excel Template
+                </h5>
+                <a 
+                    href="/template/excel/SFXC_Voter_Template.xlsx" 
+                    download="SFXC_Voter_Template.xlsx" 
+                    target="_blank"
+                >
+                    <SecondaryButton className="space-x-3">
+                    <i className="fa-solid fa-lg fa-down-long"></i> <span>click here to download</span>
+                    </SecondaryButton>
+                </a>
                 <div className="mt-4">
                     <InputLabel htmlFor="voter_file" value="Voter Excel File" />
                     <input

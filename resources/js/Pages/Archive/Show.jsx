@@ -15,6 +15,7 @@ import {
 import SecondaryButton from '@/Components/SecondaryButton';
 import PrimaryButton from '@/Components/PrimaryButton';
 import plugin from '@tailwindcss/forms';
+import PrintComponent from '@/Components/PrintComponent';
 
 ChartJS.register(
     CategoryScale,
@@ -105,41 +106,49 @@ export default function Show({ auth, election }) {
                             </PrimaryButton>
                         </div>
                     </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" ref={contentToPrint}>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             <div className="mb-8">
-                                <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
-                                <table className="min-w-full mb-4 border-collapse border border-gray-200">
-                                    <thead>
-                                        <tr>
-                                            <th className="px-4 py-2 border">Position</th>
-                                            <th className="px-4 py-2 border">Candidate</th>
-                                            <th className="px-4 py-2 border">Votes</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {election.positions.map(position => {
-                                            // Sort candidates by votes_count in descending order
-                                            const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
-                                            return sortedCandidates.map((candidate, index) => {
-                                                let bgColor = '';
-                                                if (index === 0) bgColor = 'bg-green-400'; // 1st place
+                                <div className='overflow-auto' ref={contentToPrint} style={{ pageBreakAfter: 'always' }}>
+                                    <div className="print-header text-center">
+                                        <img className="mx-auto w-32 object-cover" src="/logo.png" alt="logo" />
+                                        <img className="mx-auto w-72 object-cover" src="/xavier_name.png" alt="logo" />
+                                    </div>
+                                    <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
+                                    <table className="table-auto min-w-full mb-4 border-collapse border-gray-200">
+                                        <thead className='text-md text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500'>
+                                            <tr>
+                                                <th className="px-4 py-2 text-left">Position</th>
+                                                <th className="px-4 py-2 text-left">Candidate</th>
+                                                <th className="px-4 py-2 w-40">Vote Count</th>
+                                                <th className='px-4 py-2 w-32'>Rank</th> {/* Added Rank header */}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {election.positions.map(position => {
+                                                // Sort candidates by votes_count in descending order
+                                                const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
+                                                return sortedCandidates.map((candidate, index) => {
+                                                    let bgColor = '';
+                                                    if (index === 0) bgColor = 'bg-green-400'; // 1st place
 
-                                                return (
-                                                    <tr key={candidate.id}>
-                                                        {index === 0 && (
-                                                            <td className="px-4 py-2 border" rowSpan={sortedCandidates.length}>
-                                                                {position.name}
-                                                            </td>
-                                                        )}
-                                                        <td className="px-4 py-2 border">{candidate.name}</td>
-                                                        <td className={`px-4 py-2 border ${bgColor}`}>{candidate.votes_count}</td>
-                                                    </tr>
-                                                );
-                                            });
-                                        })}
-                                    </tbody>
-                                </table>
+                                                    return (
+                                                        <tr key={candidate.id}>
+                                                            {index === 0 && (
+                                                                <td className="px-4 py-2 border-b border-r font-medium" rowSpan={sortedCandidates.length}>
+                                                                    {position.name}
+                                                                </td>
+                                                            )}
+                                                            <td className="px-4 py-2 border-b">{candidate.name}</td>
+                                                            <td className="px-4 py-2 border-b text-center">{candidate.votes_count}</td>
+                                                            <td className={`px-4 py-2 border-b text-center ${bgColor}`}>{index + 1}</td> {/* Added Rank column */}
+                                                        </tr>
+                                                    );
+                                                });
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div className='grid md:grid-cols-2 grid-cols-1 gap-8 mt-8'>
                                     {election.positions.map(position => (
                                         <div key={position.id} className="mb-8">
