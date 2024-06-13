@@ -104,9 +104,11 @@ export default function Dashboard({ auth, initialData }) {
             header={
                 <div className='flex items-center justify-between'>
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-                    <button type="button" onClick={handlePrint} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">
-                        <i className="fa-solid fa-print inline"></i><span className='ml-2'>Print</span>
-                    </button>
+                    {data.elections.length > 0 && (
+                        <button type="button" onClick={handlePrint} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">
+                            <i className="fa-solid fa-print inline"></i><span className='ml-2'>Print</span>
+                        </button>
+                    )}
                 </div>
             }
         >
@@ -199,36 +201,38 @@ export default function Dashboard({ auth, initialData }) {
                                     <div className="p-6 text-gray-900">
                                         <div className="mb-8">
                                             <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
-                                            <table className="min-w-full mb-4 border-collapse border border-gray-200">
-                                                <thead>
-                                                    <tr>
-                                                        <th className="px-4 py-2 border">Position</th>
-                                                        <th className="px-4 py-2 border">Candidate</th>
-                                                        <th className="px-4 py-2 border">Votes</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {election.positions.map(position => {
-                                                        const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
-                                                        return sortedCandidates.map((candidate, index) => {
-                                                            let bgColor = '';
-                                                            if (index === 0) bgColor = 'bg-green-400'; // 1st place
+                                            <div className="overflow-auto">
+                                                <table className="min-w-full mb-4 border-collapse border border-gray-200">
+                                                    <thead>
+                                                        <tr>
+                                                            <th className="px-4 py-2 border">Position</th>
+                                                            <th className="px-4 py-2 border">Candidate</th>
+                                                            <th className="px-4 py-2 border">Votes</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {election.positions.map(position => {
+                                                            const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
+                                                            return sortedCandidates.map((candidate, index) => {
+                                                                let bgColor = '';
+                                                                if (index === 0) bgColor = 'bg-green-400'; // 1st place
 
-                                                            return (
-                                                                <tr key={candidate.id}>
-                                                                    {index === 0 && (
-                                                                        <td className="px-4 py-2 border" rowSpan={sortedCandidates.length}>
-                                                                            {position.name}
-                                                                        </td>
-                                                                    )}
-                                                                    <td className="px-4 py-2 border">{candidate.name}</td>
-                                                                    <td className={`px-4 py-2 border ${bgColor}`}>{candidate.votes_count}</td>
-                                                                </tr>
-                                                            );
-                                                        });
-                                                    })}
-                                                </tbody>
-                                            </table>
+                                                                return (
+                                                                    <tr key={candidate.id}>
+                                                                        {index === 0 && (
+                                                                            <td className="px-4 py-2 border" rowSpan={sortedCandidates.length}>
+                                                                                {position.name}
+                                                                            </td>
+                                                                        )}
+                                                                        <td className="px-4 py-2 border text-nowrap">{candidate.name}</td>
+                                                                        <td className={`px-4 py-2 border ${bgColor}`}>{candidate.votes_count}</td>
+                                                                    </tr>
+                                                                );
+                                                            });
+                                                        })}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <div className='grid lg:grid-cols-2 grid-cols-1 gap-8 mt-8'>
                                                 {election.positions.map(position => (
                                                     <div key={position.id} className="mb-8">

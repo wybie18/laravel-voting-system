@@ -91,7 +91,7 @@ export default function Login({ status, canResetPassword }) {
                     <PrimaryButton className="ms-4" disabled={processing}>
                         {processing ? <ThreeDots
                             visible={true}
-                            height="10"
+                            height="16"
                             width="40"
                             color="#D1D5DB"
                             radius="9"

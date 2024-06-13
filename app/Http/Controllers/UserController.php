@@ -65,6 +65,9 @@ class UserController extends Controller
             unset($data['password']);
         }
         $user->update($data);
+        if (isset($data['role'])) {
+            $user->syncRoles([$data['role']]);
+        }
         return to_route("user.index")->with('success', 'User "' . $user->name . '" was updated ');
     }
 

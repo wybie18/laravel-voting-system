@@ -42,7 +42,7 @@ class VoteController extends Controller
 
         $positions = Positions::with('election')
             ->whereHas('election', function ($query) use ($activeElectionId) {
-                $query->where('id', $activeElectionId);
+                $query->where('id', $activeElectionId)->where('is_active', true);
             })
             ->get();
 
@@ -70,6 +70,10 @@ class VoteController extends Controller
         $data['voter_id'] = $voter->id;
         $electionId = $data['election_id'];
         $votes = $data['votes'];
+
+        if(Elections::where('id', $electionId)->where('is_active', true)->doesntExist()){
+            return redirect()->back()->withErrors(['election'=> 'Election currently not active. Try refreshing the website.']);
+        }
 
         if (Votes::where('voter_id', $voter->id)->where('election_id', $electionId)->exists()) {
             return redirect()->back()->withErrors(['election_id' => 'You have already voted in this election.']);

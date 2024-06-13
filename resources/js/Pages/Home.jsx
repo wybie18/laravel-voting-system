@@ -146,7 +146,7 @@ export default function Home({ positions, candidates, elections, currectElection
             </Head>
 
             <div className="py-12">
-                {positions.length === 0 ? (
+                {electionName == '' ? (
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                         <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
                             <div className="p-6 text-gray-900">
@@ -159,7 +159,16 @@ export default function Home({ positions, candidates, elections, currectElection
                             </div>
                         </div>
                     </div>
-                ) : (
+                ) : positions.length === 0 ? (<div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+                    <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
+                        <div className="p-6 text-gray-900">
+                            <div class="p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+                                <span><span className='font-semibold'>Notice to Voters:</span> We currently have no candidates listed for this election. Candidate nominations may be underway, so please stay tuned for updates.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ) :  (
                     <form id="election-form" className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6" onSubmit={handlePreview} ref={formRef}>
                         <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
                             <div className="p-6 text-gray-900">

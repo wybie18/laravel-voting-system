@@ -99,7 +99,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                     <PrimaryButton disabled={processing}>
                         {processing ? <ThreeDots
                             visible={true}
-                            height="10"
+                            height="16"
                             width="40"
                             color="#D1D5DB"
                             radius="9"

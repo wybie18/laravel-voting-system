@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [VoteController::class,'index'])->name('home');
 Route::post('/', [VoteController::class,'store'])->name('vote.store');
-
-Route::middleware(['role:admin|staff', 'verified'])->group(function (){
+Route::middleware(['auth','role:admin|staff', 'verified'])->group(function (){
     Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('admin/election', [ElectionController::class, 'index'])->name('election.index');
@@ -36,23 +35,21 @@ Route::middleware(['role:admin|staff', 'verified'])->group(function (){
     Route::post('admin/voter', [VoterController::class,'store'])->name('voter.store')->middleware('permission:can create');
     Route::put('admin/voter/{voter}', [VoterController::class, 'update'])->name('voter.update');
     Route::delete('admin/voter/{voter}', [VoterController::class, 'destroy'])->name('voter.destroy')->middleware('permission:can delete');
-    Route::post('admin/voter/upload', [VoterController::class,'upload'])->name('voter.upload');
+    Route::post('admin/voter/upload', [VoterController::class,'upload'])->name('voter.upload')->middleware('permission:can create');
     
     Route::get('admin/archive', [ArchiveController::class, 'index'])->name('archive.index');
     Route::get('admin/archive/{archive}', [ArchiveController::class, 'show'])->name('archive.show');
+
+    Route::get('admin/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('admin/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('admin/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['role:admin', 'verified'])->group(function (){
+Route::middleware(['auth', 'role:admin', 'verified'])->group(function (){
     Route::get('admin/user', [UserController::class, 'index'])->name('user.index');
     Route::post('admin/user', [UserController::class,'store'])->name('user.store')->middleware('permission:can create');
     Route::put('admin/user/{user}', [UserController::class, 'update'])->name('user.update')->middleware('permission:can update');
     Route::delete('admin/user/{user}', [UserController::class, 'destroy'])->name('user.destroy')->middleware('permission:can delete');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('admin/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('admin/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('admin/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
