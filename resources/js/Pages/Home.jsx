@@ -10,6 +10,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { ThreeDots } from 'react-loader-spinner';
 import { motion } from 'framer-motion';
+import ScrollUpAnimation from '@/Components/ScrollUpAnimation';
 
 export default function Home({ positions, candidates, elections, currectElectionId, success }) {
     const electionName = elections.filter(election => election.id == currectElectionId).map(election => election.name)
@@ -140,17 +141,7 @@ export default function Home({ positions, candidates, elections, currectElection
     return (
         <CustomLayout
             header={
-                <motion.div
-                    variants={{
-                        hidden: { opacity: 0, x: -75 },
-                        visible: { opacity: 1, x: 0 },
-                    }}
-                    initial="hidden"
-                    animate="visible"
-                    transition={{ duration: 0.5, delay: 0.25 }}
-                >
-                    <h1>{electionName}</h1>
-                </motion.div>
+                <h1>{electionName}</h1>
             }
             links={elections}
         >
@@ -159,16 +150,8 @@ export default function Home({ positions, candidates, elections, currectElection
             </Head>
 
             <div className="py-12">
-                <motion.div
-                    variants={{
-                        hidden: { opacity: 0, y: 75 },
-                        visible: { opacity: 1, y: 0 },
-                    }}
-                    initial="hidden"
-                    animate="visible"
-                    transition={{ duration: 0.5, delay: 0.25 }}
-                >
-                    {electionName == '' ? (
+                {electionName == '' ? (
+                    <ScrollUpAnimation>
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                             <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
                                 <div className="p-6 text-gray-900">
@@ -181,17 +164,22 @@ export default function Home({ positions, candidates, elections, currectElection
                                 </div>
                             </div>
                         </div>
-                    ) : positions.length === 0 ? (<div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                        <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
-                            <div className="p-6 text-gray-900">
-                                <div class="p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
-                                    <span><span className='font-semibold'>Notice to Voters:</span> We currently have no candidates listed for this election. Candidate nominations may be underway, so please stay tuned for updates.</span>
+                    </ScrollUpAnimation>
+                ) : positions.length === 0 ? (
+                    <ScrollUpAnimation>
+                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+                            <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
+                                <div className="p-6 text-gray-900">
+                                    <div class="p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+                                        <span><span className='font-semibold'>Notice to Voters:</span> We currently have no candidates listed for this election. Candidate nominations may be underway, so please stay tuned for updates.</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    ) : (
-                        <form id="election-form" className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6" onSubmit={handlePreview} ref={formRef}>
+                    </ScrollUpAnimation>
+                ) : (
+                    <form id="election-form" className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6" onSubmit={handlePreview} ref={formRef}>
+                        <ScrollUpAnimation>
                             <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
                                 <div className="p-6 text-gray-900">
                                     <InputLabel htmlFor="voter_email">
@@ -213,7 +201,9 @@ export default function Home({ positions, candidates, elections, currectElection
                                     <input type="hidden" name="election_id" value={currectElectionId} />
                                 </div>
                             </div>
-                            {positions.map(position => (
+                        </ScrollUpAnimation>
+                        {positions.map(position => (
+                            <ScrollUpAnimation>
                                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" key={position.name}>
                                     <div className="p-6 text-gray-900">
                                         <h2 className="text-2xl font-semibold text-gray-700">
@@ -260,15 +250,15 @@ export default function Home({ positions, candidates, elections, currectElection
                                         )}
                                     </div>
                                 </div>
-                            ))}
-                            <div className="mt-6 flex justify-end">
-                                <PrimaryButton type="submit" className='me-1'>
-                                    Submit
-                                </PrimaryButton>
-                            </div>
-                        </form>
-                    )}
-                </motion.div>
+                            </ScrollUpAnimation>
+                        ))}
+                        <div className="mt-6 flex justify-end">
+                            <PrimaryButton type="submit" className='me-1'>
+                                Submit
+                            </PrimaryButton>
+                        </div>
+                    </form>
+                )}
             </div>
             <Modal show={openModal} onClose={closeModal}>
                 <div className='p-6'>
