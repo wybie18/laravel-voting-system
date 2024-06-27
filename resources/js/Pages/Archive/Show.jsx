@@ -14,8 +14,6 @@ import {
 } from "chart.js";
 import SecondaryButton from '@/Components/SecondaryButton';
 import PrimaryButton from '@/Components/PrimaryButton';
-import plugin from '@tailwindcss/forms';
-import PrintComponent from '@/Components/PrintComponent';
 
 ChartJS.register(
     CategoryScale,
@@ -126,11 +124,10 @@ export default function Show({ auth, election }) {
                                         </thead>
                                         <tbody>
                                             {election.positions.map(position => {
-                                                // Sort candidates by votes_count in descending order
                                                 const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
                                                 return sortedCandidates.map((candidate, index) => {
                                                     let bgColor = '';
-                                                    if (index === 0) bgColor = 'bg-green-400'; // 1st place
+                                                    if (index === 0) bgColor = 'bg-green-400';
 
                                                     return (
                                                         <tr key={candidate.id}>
@@ -141,7 +138,9 @@ export default function Show({ auth, election }) {
                                                             )}
                                                             <td className="px-4 py-2 border-b">{candidate.name}</td>
                                                             <td className="px-4 py-2 border-b text-center">{candidate.votes_count}</td>
-                                                            <td className={`px-4 py-2 border-b text-center ${bgColor}`}>{index + 1}</td> {/* Added Rank column */}
+                                                            <td className={"px-4 py-2 border-b text-center " + (candidate.votes_count != 0 ? bgColor : '')}>
+                                                                {candidate.votes_count != 0 ? index + 1 : "0"}
+                                                            </td>
                                                         </tr>
                                                     );
                                                 });

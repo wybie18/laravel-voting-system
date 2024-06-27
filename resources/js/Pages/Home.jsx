@@ -9,7 +9,6 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { ThreeDots } from 'react-loader-spinner';
-import { motion } from 'framer-motion';
 import ScrollUpAnimation from '@/Components/ScrollUpAnimation';
 
 export default function Home({ positions, candidates, elections, currectElectionId, success }) {
@@ -181,7 +180,7 @@ export default function Home({ positions, candidates, elections, currectElection
                     <form id="election-form" className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6" onSubmit={handlePreview} ref={formRef}>
                         <ScrollUpAnimation>
                             <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
-                                <div className="p-6 text-gray-900">
+                                <div className="p-6 text-gray-900 max-w-96">
                                     <InputLabel htmlFor="voter_email">
                                         Your SFXC Email <span className='text-red-900'>*</span>
                                     </InputLabel>
@@ -189,7 +188,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                         type="email"
                                         id="voter_email"
                                         name="email"
-                                        className="mt-4"
+                                        className="mt-4 w-full"
                                         placeholder="Email"
                                         value={data.email}
                                         onChange={e => setData('email', e.target.value)}
@@ -203,8 +202,8 @@ export default function Home({ positions, candidates, elections, currectElection
                             </div>
                         </ScrollUpAnimation>
                         {positions.map(position => (
-                            <ScrollUpAnimation>
-                                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" key={position.name}>
+                            <ScrollUpAnimation key={position.name}>
+                                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" >
                                     <div className="p-6 text-gray-900">
                                         <h2 className="text-2xl font-semibold text-gray-700">
                                             {position.name}
@@ -214,36 +213,38 @@ export default function Home({ positions, candidates, elections, currectElection
                                             Select only one candidate
                                         </p>
                                         {candidates.data.filter(candidate => candidate.position.name === position.name).map(candidate => (
-                                            <div className='mt-4 md:px-10 w-full border-t-2 border-b-2 py-2' key={candidate.id}>
-                                                <div className="flex items-center justify-between overflow-hidden">
-                                                    <label className='md:space-x-10'>
-                                                        <input
-                                                            type="radio"
-                                                            name={position.name}
-                                                            value={candidate.id}
-                                                            className='border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 m-2'
-                                                            onChange={() => handleSelectionChange(position.name)}
-                                                        />
-                                                        <img
-                                                            src={candidate.image_url}
-                                                            alt="profile"
-                                                            className='w-12 h-12 md:w-16 md:h-16 object-cover rounded-full inline'
-                                                        />
-                                                        <span className="ml-2 text-lg text-gray-700 text-nowrap">
-                                                            {candidate.name}
+                                            <ScrollUpAnimation key={candidate.id}>
+                                                <div className='mt-4 md:px-10 w-full border-t-2 border-b-2 py-2' >
+                                                    <div className="flex items-center justify-between overflow-hidden">
+                                                        <label className='md:space-x-10'>
+                                                            <input
+                                                                type="radio"
+                                                                name={position.name}
+                                                                value={candidate.id}
+                                                                className='border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 m-2'
+                                                                onChange={() => handleSelectionChange(position.name)}
+                                                            />
+                                                            <img
+                                                                src={candidate.image_url}
+                                                                alt="profile"
+                                                                className='w-12 h-12 md:w-16 md:h-16 object-cover rounded-full inline'
+                                                            />
+                                                            <span className="ml-2 text-lg text-gray-700 text-nowrap">
+                                                                {candidate.name}
+                                                            </span>
+                                                        </label>
+                                                        <span className="py-1 px-2 rounded-md bg-green-900 text-gray-100 text-center cursor-pointer hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
+                                                            <i className="fa-solid fa-md fa-magnifying-glass inline"></i>
+                                                            <span className="ml-2 text-gray-100 hidden sm:inline">
+                                                                Platform
+                                                            </span>
                                                         </span>
-                                                    </label>
-                                                    <span className="py-1 px-2 rounded-md bg-green-900 text-gray-100 text-center cursor-pointer hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
-                                                        <i className="fa-solid fa-md fa-magnifying-glass inline"></i>
-                                                        <span className="ml-2 text-gray-100 hidden sm:inline">
-                                                            Platform
-                                                        </span>
-                                                    </span>
-                                                    {/* <PrimaryButton type="button" className='me-1' onClick={() => handleOpenModal(candidate)}>
+                                                        {/* <PrimaryButton type="button" className='me-1' onClick={() => handleOpenModal(candidate)}>
                                                     Platform
                                                 </PrimaryButton> */}
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </ScrollUpAnimation>
                                         ))}
                                         {selectionErrors[position.name] && (
                                             <p className="text-red-500 mt-4">{selectionErrors[position.name]}</p>

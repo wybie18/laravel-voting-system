@@ -194,13 +194,12 @@ export default function Dashboard({ auth, initialData }) {
                                             </div>
                                             <PrintComponent>
                                                 <div className='flex justify-between items-center mb-6'>
-
-                                                
-                                                <h2 className="text-2xl font-semibold">{election.name}</h2>
-                                                    {/* <button className='on-print bg-green-900 py-1 px-3 me-2 text-white rounded shadow transition-all hover:bg-green-700 float-end'
+                                                    <h2 className="text-2xl font-semibold">{election.name}</h2>
+                                                    <span className='on-print bg-green-900 py-1 px-3 me-2 text-white rounded shadow transition-all hover:bg-green-700 float-end'
+                                                        title='Vote Count'
                                                     >
-                                                        <span className='text-gray-100'>1000 / 1000</span>
-                                                    </button> */}
+                                                        <span className='text-gray-100'>{data.votersVote.voted} / {data.votersVote.voters}</span>
+                                                    </span>
                                                 </div>
                                                 <table className="table-auto min-w-full mb-4 border-collapse border-gray-200">
                                                     <thead className='text-md text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500'>
@@ -213,7 +212,6 @@ export default function Dashboard({ auth, initialData }) {
                                                     </thead>
                                                     <tbody>
                                                         {election.positions.map(position => {
-                                                            // Sort candidates by votes_count in descending order
                                                             const sortedCandidates = [...position.candidates].sort((a, b) => b.votes_count - a.votes_count);
                                                             return sortedCandidates.map((candidate, index) => {
                                                                 let bgColor = '';
@@ -228,7 +226,9 @@ export default function Dashboard({ auth, initialData }) {
                                                                         )}
                                                                         <td className="px-4 py-2 border-b">{candidate.name}</td>
                                                                         <td className="px-4 py-2 border-b text-center">{candidate.votes_count}</td>
-                                                                        <td className={`px-4 py-2 border-b text-center ${bgColor}`}>{index + 1}</td> {/* Added Rank column */}
+                                                                        <td className={"px-4 py-2 border-b text-center " + (candidate.votes_count != 0 ? bgColor : '')}>
+                                                                            {candidate.votes_count != 0 ? index + 1 : "0"}
+                                                                        </td>
                                                                     </tr>
                                                                 );
                                                             });

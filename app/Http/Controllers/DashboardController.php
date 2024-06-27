@@ -7,6 +7,7 @@ use App\Models\Elections;
 use App\Models\Positions;
 use App\Models\User;
 use App\Models\Voters;
+use App\Models\Votes;
 
 class DashboardController extends Controller
 {
@@ -23,6 +24,11 @@ class DashboardController extends Controller
         $totalVoters = Voters::count();
         $totalUsers = User::count();
         $totalMembers = $totalVoters + $totalUsers;
+        $distinctVoterElectionCount = Votes::distinct('election_id')->distinct('voter_id')->count();
+        $votersVote = [
+            "voters" => $totalVoters,
+            "voted" => $distinctVoterElectionCount
+        ];
     
         $elections = Elections::with(['positions.candidates' => function($query) {
             $query->withCount('votes');
@@ -36,6 +42,7 @@ class DashboardController extends Controller
                 'totalCandidates' => $totalCandidates,
                 'totalMembers' => $totalMembers,
                 'elections' => $elections,
+                "votersVote" => $votersVote,
             ]
         ]);
     }
@@ -53,6 +60,11 @@ class DashboardController extends Controller
         $totalVoters = Voters::count();
         $totalUsers = User::count();
         $totalMembers = $totalVoters + $totalUsers;
+        $distinctVoterElectionCount = Votes::distinct('election_id')->distinct('voter_id')->count();
+        $votersVote = [
+            "voters" => $totalVoters,
+            "voted" => $distinctVoterElectionCount
+        ];
     
         $elections = Elections::with(['positions.candidates' => function($query) {
             $query->withCount('votes');
@@ -64,6 +76,7 @@ class DashboardController extends Controller
             'totalCandidates' => $totalCandidates,
             'totalMembers' => $totalMembers,
             'elections' => $elections,
+            "votersVote" => $votersVote,
         ]);
     }
 

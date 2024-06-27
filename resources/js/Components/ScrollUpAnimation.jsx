@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useAnimation} from 'framer-motion';
 
 
-export default function ScrollUpAnimation({children}){
+export default function ScrollUpAnimation({children, ...prop}){
     const ref = useRef(null);
     const isInView = useInView(ref, {once: true});
     const aniControl = useAnimation();
@@ -14,7 +14,7 @@ export default function ScrollUpAnimation({children}){
     }, [isInView])
 
     return(
-        <div ref={ref}>
+        <div ref={ref} {...prop}>
             <motion.div
                 variants={{
                     hidden: { opacity: 0, y: 75 },
