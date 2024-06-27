@@ -19,6 +19,9 @@ class VotersResource extends JsonResource
             "id"=> $this->id,
             "name" => $this->name,
             "email" => $this->email,
+            "department" => $this->department,
+            "program" => $this->program,
+            "year" => $this->year,
             "created_at" => (new Carbon($this->created_at)) -> format('Y-m-d'),
             "updated_at" => (new Carbon($this->updated_at)) -> format('Y-m-d'),
         ];

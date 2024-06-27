@@ -10,7 +10,7 @@ import DeleteVoterForm from "./Partials/DeleteVoterForm";
 import EditVoterForm from "./Partials/EditVoterForm";
 import UploadVoterForm from "./Partials/UploadVoterForm";
 
-export default function Index({ auth, voters, queryParams = null, success }) {
+export default function Index({ auth, voters, departments, programs, queryParams = null, success }) {
     queryParams = queryParams || {};
     const [voterData, setVoterData] = useState();
     const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -131,11 +131,14 @@ export default function Index({ auth, voters, queryParams = null, success }) {
                                             <TableHeading name="email" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Email
                                             </TableHeading>
-                                            <TableHeading name="created_at" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
-                                                Created Date
+                                            <TableHeading name="department" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
+                                                Department
                                             </TableHeading>
-                                            <TableHeading name="updated_at" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
-                                                Updated Date
+                                            <TableHeading name="program" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
+                                                Program
+                                            </TableHeading>
+                                            <TableHeading name="year" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
+                                                Year Level
                                             </TableHeading>
                                             <th className="px-3 py-2 text-right">Actions</th>
                                         </tr>
@@ -165,6 +168,7 @@ export default function Index({ auth, voters, queryParams = null, success }) {
                                                 </th>
                                                 <th className="px-3 py-2"></th>
                                                 <th className="px-3 py-2"></th>
+                                                <th className="px-3 py-2"></th>
                                                 <th className="px-3 py-2 text-right"></th>
                                             </tr>
                                         </thead>) : null
@@ -176,8 +180,9 @@ export default function Index({ auth, voters, queryParams = null, success }) {
                                                     <td className="px-3 py-2">{voter.id}</td>
                                                     <td className="px-3 py-2 text-nowrap">{voter.name}</td>
                                                     <td className="px-3 py-2">{voter.email}</td>
-                                                    <td className="px-3 py-2 text-nowrap">{voter.created_at}</td>
-                                                    <td className="px-3 py-2 text-nowrap">{voter.updated_at}</td>
+                                                    <td className="px-3 py-2 text-nowrap">{voter.department}</td>
+                                                    <td className="px-3 py-2">{voter.program}</td>
+                                                    <td className="px-3 py-2">{voter.year}</td>
                                                     <td className="px-3 py-2 text-right">
                                                         <span className="font-medium text-blue-600 hover:underline mx-1 cursor-pointer" onClick={() => handleEditVoter(voter)}>
                                                             Edit
@@ -203,9 +208,9 @@ export default function Index({ auth, voters, queryParams = null, success }) {
                     </div>
                 </div>
             </div>
-            <CreateVoterForm modalOpen={createModalOpen} closeModal={closeCreateModal} />
+            <CreateVoterForm modalOpen={createModalOpen} closeModal={closeCreateModal} departments={departments} programs={programs}/>
             <UploadVoterForm modalOpen={uploadModalOpen} closeModal={closeUploadModal} />
-            <EditVoterForm modalOpen={editModalOpen} closeModal={closeEditModal} voter={voterData} />
+            <EditVoterForm modalOpen={editModalOpen} closeModal={closeEditModal} voter={voterData} departments={departments} programs={programs} />
             <DeleteVoterForm modalOpen={deleteModalOpen} closeModal={closeDeleteModal} voter={voterData} />
         </AdminAuthenticatedLayout>
     )

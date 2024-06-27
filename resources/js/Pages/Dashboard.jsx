@@ -193,7 +193,15 @@ export default function Dashboard({ auth, initialData }) {
                                                 <img className="mx-auto w-72 object-cover" src="/xavier_name.png" alt="logo" />
                                             </div>
                                             <PrintComponent>
-                                                <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
+                                                <div className='flex justify-between items-center mb-6'>
+
+                                                
+                                                <h2 className="text-2xl font-semibold">{election.name}</h2>
+                                                    {/* <button className='on-print bg-green-900 py-1 px-3 me-2 text-white rounded shadow transition-all hover:bg-green-700 float-end'
+                                                    >
+                                                        <span className='text-gray-100'>1000 / 1000</span>
+                                                    </button> */}
+                                                </div>
                                                 <table className="table-auto min-w-full mb-4 border-collapse border-gray-200">
                                                     <thead className='text-md text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500'>
                                                         <tr>

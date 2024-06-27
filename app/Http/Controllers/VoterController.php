@@ -31,10 +31,13 @@ class VoterController extends Controller
         if (request("email")) {
             $query->where("email", "like", "%" . request("email") . "%");
         }
-
         $voters = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
+        $departments = Voters::distinct()->pluck('department');
+        $programs = Voters::distinct()->pluck('program');
         return inertia("Voters/Index", [
             "voters" => VotersResource::collection($voters),
+            "departments" => $departments,
+            "programs" => $programs,
             "queryParams" => request()->query() ?: null,
             "success" => session('success'),
         ]);
@@ -76,7 +79,6 @@ class VoterController extends Controller
         } catch (AccessDeniedException $e) {
             return back()->withErrors(['file' => $e->getMessage()]);
         } catch (\Exception $e) {
-            // Handle any other exceptions
             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }

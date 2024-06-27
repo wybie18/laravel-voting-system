@@ -3,24 +3,29 @@ import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
-import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
-import Textarea from "@/Components/Textarea";
+import TextInputData from "@/Components/TextInputData";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function EditVoterForm({modalOpen, closeModal, voter}) {
+export default function EditVoterForm({modalOpen, closeModal, voter, departments, programs}) {
     const { data, setData, put, processing, errors, reset } = useForm({
         name: '',
         email: '',
+        department: '',
+        program: '',
+        year: '',
     })
     useEffect(() => {
         if(voter){
             setData({
                 name: voter.name,
                 email: voter.email,
+                department: voter.department,
+                program: voter.program,
+                year: voter.year,
             });
         }
     }, [voter])
@@ -79,6 +84,49 @@ export default function EditVoterForm({modalOpen, closeModal, voter}) {
                     />
                     <InputError message={errors.email} className="mt-2" />
                 </div>
+                <div className="mt-4">
+                        <InputLabel htmlFor="voter_department" value="Voter Department" />
+                        <TextInputData
+                            type="text"
+                            className="mt-1 block w-full"
+                            id="voter_department"
+                            name="department"
+                            value={data.department}
+                            data={departments}
+                            isFocused={true}
+                            onChange={(e) => setData('department', e.target.value)}
+                        />
+                        <InputError message={errors.department} className="mt-2" />
+                    </div>
+                    <div className="mt-4">
+                        <InputLabel htmlFor="voter_program" value="Voter Program" />
+                        <TextInputData
+                            type="text"
+                            className="mt-1 block w-full"
+                            id="voter_program"
+                            name="program"
+                            value={data.program}
+                            data={programs}
+                            isFocused={true}
+                            onChange={(e) => setData('program', e.target.value)}
+                        />
+                        <InputError message={errors.program} className="mt-2" />
+                    </div>
+                    <div className="mt-4">
+                        <InputLabel htmlFor="voter_year" value="Voter Year Level" />
+                        <TextInput
+                            type="number"
+                            min="1"
+                            max="5"
+                            className="mt-1 block w-full"
+                            id="voter_year"
+                            name="year"
+                            value={data.year}
+                            isFocused={true}
+                            onChange={(e) => setData('year', e.target.value)}
+                        />
+                        <InputError message={errors.year} className="mt-2" />
+                    </div>
                 <div className="mt-6 flex justify-end">
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>
 

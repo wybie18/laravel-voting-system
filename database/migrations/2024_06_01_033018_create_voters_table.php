@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('department');
+            $table->string('program');
+            $table->integer('year');
             $table->timestamps();
         });
     }

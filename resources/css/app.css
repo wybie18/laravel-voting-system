@@ -44,7 +44,7 @@
     }
 }
 
-.print-preview-button {
+.on-print {
     @media print {
         display: none;
     }

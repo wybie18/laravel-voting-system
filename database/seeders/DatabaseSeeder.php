@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Voters;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -35,5 +36,6 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo(['can create', 'can update', 'can delete']);
 
         $adminUser->assignRole('admin');
+        Voters::factory()->count(1000)->create();
     }
 }

@@ -16,12 +16,19 @@ class VotersFactory extends Factory
      */
     public function definition(): array
     {
-        $is_verified = fake()->boolean();
+        $departmentPrograms = [
+            'College of Criminal Justice Education' => ['BSCrim'], 
+            'College of Business Education' => ['BSIT', 'BSA', 'BSIA', 'BSAIS', 'BSBA'], 
+            'College of Teacher Education' => ['BEED', 'BSED']
+        ];
+        $department = fake()->randomElement(array_keys($departmentPrograms));
+        $program = fake()->randomElement($departmentPrograms[$department]);
         return [
             'name'=>fake()->name(),
             'email'=>fake()->unique()->safeEmail(),
-            'is_verified'=>$is_verified,
-            'verified_date'=> $is_verified ? fake()->dateTimeThisYear() : null,
+            'department'=>$department,
+            'program'=>$program,
+            'year'=>fake()->randomElement([1, 2, 3, 4]),
         ];
     }
 }

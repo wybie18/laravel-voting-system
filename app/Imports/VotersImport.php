@@ -22,11 +22,17 @@ class VotersImport implements ToModel, WithHeadingRow, WithValidation
             $voter->update([
                 'name' => $row['name'],
                 'email' => $row['email'],
+                'department' => $row['department'],
+                'program' => $row['program'],
+                'year' => $row['year'],
             ]);
         } else {
             $voter = new Voters([
                 'name' => $row['name'],
                 'email' => $row['email'],
+                'department' => $row['department'],
+                'program' => $row['program'],
+                'year' => $row['year'],
             ]);
             $voter->save();
         }
@@ -46,6 +52,9 @@ class VotersImport implements ToModel, WithHeadingRow, WithValidation
         return [
             '*.name' => ['required', "string", "max:200"],
             '*.email' => ['required', 'string', 'email'],
+            '*.department' => ['required', "string", "max:100"],
+            '*.program' => ['required', "string", "max:100"],
+            '*.year' => ['required'],
         ];
     }
 }
