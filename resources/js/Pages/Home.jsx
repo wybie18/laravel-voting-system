@@ -10,6 +10,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { ThreeDots } from 'react-loader-spinner';
 import ScrollUpAnimation from '@/Components/ScrollUpAnimation';
+import ScrollRightAnimation from '@/Components/ScrollRightAnimation';
 
 export default function Home({ positions, candidates, elections, currectElectionId, success }) {
     const electionName = elections.filter(election => election.id == currectElectionId).map(election => election.name)
@@ -110,12 +111,16 @@ export default function Home({ positions, candidates, elections, currectElection
     };
 
     const checkEmail = async (email) => {
-        try {
-            const response = await axios.get(`/api/check-email?email=${email}`);
-            setData('email', email);
-            setEmailValid(response.data.exists);
-        } catch (error) {
-            console.error('Error checking email', error);
+        if (email) {
+            try {
+                const response = await axios.get(`/api/check-email?email=${email}`);
+                setData('email', email);
+                setEmailValid(response.data.exists);
+            } catch (error) {
+                console.error('Error checking email', error);
+            }
+        }else{
+            setEmailValid(null);
         }
     };
 
@@ -140,7 +145,7 @@ export default function Home({ positions, candidates, elections, currectElection
     return (
         <CustomLayout
             header={
-                <h1>{electionName}</h1>
+                <h1>{electionName} Election</h1>
             }
             links={elections}
         >
@@ -213,7 +218,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                             Select only one candidate
                                         </p>
                                         {candidates.data.filter(candidate => candidate.position.name === position.name).map(candidate => (
-                                            <ScrollUpAnimation key={candidate.id}>
+                                            <ScrollRightAnimation key={candidate.id}>
                                                 <div className='mt-4 md:px-10 w-full border-t-2 border-b-2 py-2' >
                                                     <div className="flex items-center justify-between overflow-hidden">
                                                         <label className='md:space-x-10'>
@@ -244,7 +249,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                                 </PrimaryButton> */}
                                                     </div>
                                                 </div>
-                                            </ScrollUpAnimation>
+                                            </ScrollRightAnimation>
                                         ))}
                                         {selectionErrors[position.name] && (
                                             <p className="text-red-500 mt-4">{selectionErrors[position.name]}</p>
@@ -254,9 +259,11 @@ export default function Home({ positions, candidates, elections, currectElection
                             </ScrollUpAnimation>
                         ))}
                         <div className="mt-6 flex justify-end">
-                            <PrimaryButton type="submit" className='me-1'>
-                                Submit
-                            </PrimaryButton>
+                            <ScrollUpAnimation>
+                                <PrimaryButton type="submit" className='me-1'>
+                                    Submit
+                                </PrimaryButton>
+                            </ScrollUpAnimation>
                         </div>
                     </form>
                 )}
