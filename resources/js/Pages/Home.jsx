@@ -222,7 +222,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                                                 type="radio"
                                                                 name={position.name}
                                                                 value={candidate.id}
-                                                                className='border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 m-2'
+                                                                className='border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 mr-2 sm:m-2'
                                                                 onChange={() => handleSelectionChange(position.name)}
                                                             />
                                                             <img
@@ -230,11 +230,11 @@ export default function Home({ positions, candidates, elections, currectElection
                                                                 alt=""
                                                                 className='w-10 h-10 md:w-16 md:h-16 object-cover rounded-full inline'
                                                             />
-                                                            <span className="ml-2 text-sm sm:text-md lg:text-lg text-gray-700 text-nowrap">
+                                                            <span className={`ml-2 text-${candidate.name.length > 30 ? 'xs' : 'sm'} sm:text-md lg:text-lg text-gray-700 text`}>
                                                                 {candidate.name}
                                                             </span>
                                                         </label>
-                                                        <span className="sm:py-1 sm:px-2 rounded-md sm:bg-green-900 text-green-900 sm:text-gray-100 text-center cursor-pointer hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
+                                                        <span className="sm:py-1 sm:px-2 rounded-md sm:bg-green-900 text-green-900 sm:text-gray-100 text-center cursor-pointer sm:hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
                                                             <i className="fa-solid fa-md fa-magnifying-glass inline"></i>
                                                             <span className="ml-2 hidden sm:inline">
                                                                 Platform
