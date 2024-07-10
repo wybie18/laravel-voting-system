@@ -6,7 +6,7 @@
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
+    @apply w-[6px] md:w-[10px]
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
