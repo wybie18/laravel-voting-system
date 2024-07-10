@@ -21,7 +21,7 @@
 
 .sfxc-bg-image {
     background-color: darkgreen;
-    background-image: url(/storage/app/public/image/background/XavierBuilding.png);
+    background-image: url(/image/background/XavierBuilding.png);
     background-size: cover;
 }
 

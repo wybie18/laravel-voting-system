@@ -202,12 +202,12 @@ export default function Dashboard({ auth, initialData }) {
                                                     </span>
                                                 </div>
                                                 <table className="table-auto min-w-full mb-4 border-collapse border-gray-200">
-                                                    <thead className='text-md text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500'>
+                                                    <thead className="text-md text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500">
                                                         <tr>
                                                             <th className="px-4 py-2 text-left">Position</th>
                                                             <th className="px-4 py-2 text-left">Candidate</th>
                                                             <th className="px-4 py-2 w-40">Vote Count</th>
-                                                            <th className='px-4 py-2 w-32'>Rank</th> {/* Added Rank header */}
+                                                            <th className="px-4 py-2 w-32">Rank</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -216,7 +216,6 @@ export default function Dashboard({ auth, initialData }) {
                                                             return sortedCandidates.map((candidate, index) => {
                                                                 let bgColor = '';
                                                                 if (index === 0) bgColor = 'bg-green-400'; // 1st place
-
                                                                 return (
                                                                     <tr key={candidate.id}>
                                                                         {index === 0 && (
@@ -226,8 +225,8 @@ export default function Dashboard({ auth, initialData }) {
                                                                         )}
                                                                         <td className="px-4 py-2 border-b">{candidate.name}</td>
                                                                         <td className="px-4 py-2 border-b text-center">{candidate.votes_count}</td>
-                                                                        <td className={"px-4 py-2 border-b text-center " + (candidate.votes_count != 0 ? bgColor : '')}>
-                                                                            {candidate.votes_count != 0 ? index + 1 : "0"}
+                                                                        <td className={"px-4 py-2 border-b text-center " + (candidate.votes_count !== 0 ? bgColor : '')}>
+                                                                            {candidate.votes_count !== 0 ? index + 1 : "0"}
                                                                         </td>
                                                                     </tr>
                                                                 );
