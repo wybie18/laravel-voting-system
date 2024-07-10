@@ -183,7 +183,7 @@ export default function Home({ positions, candidates, elections, currectElection
                             <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
                                 <div className="p-6 text-gray-900 max-w-96">
                                     <InputLabel htmlFor="voter_email">
-                                        Your SFXC Email <span className='text-red-900'>*</span>
+                                        SFXC Email <span className='text-red-900'>*</span>
                                     </InputLabel>
                                     <TextInput
                                         type="email"
