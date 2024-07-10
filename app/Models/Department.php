@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Voters extends Model
+class Department extends Model
 {
-    protected $fillable = ['name', 'email', 'course_id', 'year'];
     use HasFactory;
+
+    protected $fillable = ['name'];
     public function course(){
-        return $this->belongsTo(Course::class);
+        return $this->hasMany(Course::class);
     }
 }

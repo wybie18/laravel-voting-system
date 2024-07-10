@@ -7,6 +7,7 @@ use App\Http\Requests\StoreVotersRequest;
 use App\Http\Requests\UpdateVotersRequest;
 use App\Http\Resources\VotersResource;
 use App\Imports\VotersImport;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
@@ -32,12 +33,10 @@ class VoterController extends Controller
             $query->where("email", "like", "%" . request("email") . "%");
         }
         $voters = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
-        $departments = Voters::distinct()->pluck('department');
-        $programs = Voters::distinct()->pluck('program');
+        $courses = Course::all();
         return inertia("Voters/Index", [
             "voters" => VotersResource::collection($voters),
-            "departments" => $departments,
-            "programs" => $programs,
+            "courses" => $courses,
             "queryParams" => request()->query() ?: null,
             "success" => session('success'),
         ]);

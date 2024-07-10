@@ -24,8 +24,7 @@ class StoreVotersRequest extends FormRequest
         return [
             "name" => ["required", "string", "max:200"],
             "email" => ["required","string", "email", "unique:voters,email"],
-            "department" => ['required', 'string', 'max:100'],
-            "program" => ['required', 'string', 'max:100'],
+            "course" => ["required", "exists:course,id"],
             "year" => ['required', 'integer'],
         ];
     }

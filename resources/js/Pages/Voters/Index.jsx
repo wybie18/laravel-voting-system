@@ -10,7 +10,7 @@ import DeleteVoterForm from "./Partials/DeleteVoterForm";
 import EditVoterForm from "./Partials/EditVoterForm";
 import UploadVoterForm from "./Partials/UploadVoterForm";
 
-export default function Index({ auth, voters, departments, programs, queryParams = null, success }) {
+export default function Index({ auth, voters, courses, queryParams = null, success }) {
     queryParams = queryParams || {};
     const [voterData, setVoterData] = useState();
     const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -51,6 +51,9 @@ export default function Index({ auth, voters, departments, programs, queryParams
     };
 
     const searchFieldChanged = (name, value) => {
+        if(!value && !queryParams[name]){
+            return;
+        }
         if (value) {
             queryParams[name] = value;
             if (name === 'name' && queryParams.email) {
@@ -58,7 +61,8 @@ export default function Index({ auth, voters, departments, programs, queryParams
             } else if (name === 'email' && queryParams.name) {
                 delete queryParams.name;
             }
-        } else {
+        }
+        if (queryParams[name] && !value) {
             delete queryParams[name];
         }
         router.get(route('voter.index'), queryParams);
@@ -131,12 +135,12 @@ export default function Index({ auth, voters, departments, programs, queryParams
                                             <TableHeading name="email" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Email
                                             </TableHeading>
-                                            <TableHeading name="department" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
-                                                Department
-                                            </TableHeading>
-                                            <TableHeading name="program" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
+                                            {/* <TableHeading name="program" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Program
-                                            </TableHeading>
+                                            </TableHeading> */}
+                                            <th className="px-3 py-2">
+                                                Course
+                                            </th>
                                             <TableHeading name="year" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Year Level
                                             </TableHeading>
@@ -168,7 +172,6 @@ export default function Index({ auth, voters, departments, programs, queryParams
                                                 </th>
                                                 <th className="px-3 py-2"></th>
                                                 <th className="px-3 py-2"></th>
-                                                <th className="px-3 py-2"></th>
                                                 <th className="px-3 py-2 text-right"></th>
                                             </tr>
                                         </thead>) : null
@@ -180,8 +183,7 @@ export default function Index({ auth, voters, departments, programs, queryParams
                                                     <td className="px-3 py-2">{voter.id}</td>
                                                     <td className="px-3 py-2 text-nowrap">{voter.name}</td>
                                                     <td className="px-3 py-2">{voter.email}</td>
-                                                    <td className="px-3 py-2 text-nowrap">{voter.department}</td>
-                                                    <td className="px-3 py-2">{voter.program}</td>
+                                                    <td className="px-3 py-2">{voter.course.name}</td>
                                                     <td className="px-3 py-2">{voter.year}</td>
                                                     <td className="px-3 py-2 text-right">
                                                         <span className="font-medium text-blue-600 hover:underline mx-1 cursor-pointer" onClick={() => handleEditVoter(voter)}>
@@ -208,9 +210,9 @@ export default function Index({ auth, voters, departments, programs, queryParams
                     </div>
                 </div>
             </div>
-            <CreateVoterForm modalOpen={createModalOpen} closeModal={closeCreateModal} departments={departments} programs={programs}/>
+            <CreateVoterForm modalOpen={createModalOpen} closeModal={closeCreateModal} courses={courses} />
             <UploadVoterForm modalOpen={uploadModalOpen} closeModal={closeUploadModal} />
-            <EditVoterForm modalOpen={editModalOpen} closeModal={closeEditModal} voter={voterData} departments={departments} programs={programs} />
+            <EditVoterForm modalOpen={editModalOpen} closeModal={closeEditModal} voter={voterData} courses={courses} />
             <DeleteVoterForm modalOpen={deleteModalOpen} closeModal={closeDeleteModal} voter={voterData} />
         </AdminAuthenticatedLayout>
     )

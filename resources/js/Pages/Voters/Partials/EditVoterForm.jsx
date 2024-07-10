@@ -3,28 +3,26 @@ import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
-import TextInputData from "@/Components/TextInputData";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function EditVoterForm({modalOpen, closeModal, voter, departments, programs}) {
+export default function EditVoterForm({ modalOpen, closeModal, voter, courses }) {
     const { data, setData, put, processing, errors, reset } = useForm({
         name: '',
         email: '',
-        department: '',
-        program: '',
+        course: '',
         year: '',
     })
     useEffect(() => {
-        if(voter){
+        if (voter) {
             setData({
                 name: voter.name,
                 email: voter.email,
-                department: voter.department,
-                program: voter.program,
+                course: voter.course.id,
                 year: voter.year,
             });
         }
@@ -85,48 +83,39 @@ export default function EditVoterForm({modalOpen, closeModal, voter, departments
                     <InputError message={errors.email} className="mt-2" />
                 </div>
                 <div className="mt-4">
-                        <InputLabel htmlFor="voter_department" value="Voter Department" />
-                        <TextInputData
-                            type="text"
-                            className="mt-1 block w-full"
-                            id="voter_department"
-                            name="department"
-                            value={data.department}
-                            data={departments}
-                            isFocused={true}
-                            onChange={(e) => setData('department', e.target.value)}
-                        />
-                        <InputError message={errors.department} className="mt-2" />
-                    </div>
-                    <div className="mt-4">
-                        <InputLabel htmlFor="voter_program" value="Voter Program" />
-                        <TextInputData
-                            type="text"
-                            className="mt-1 block w-full"
-                            id="voter_program"
-                            name="program"
-                            value={data.program}
-                            data={programs}
-                            isFocused={true}
-                            onChange={(e) => setData('program', e.target.value)}
-                        />
-                        <InputError message={errors.program} className="mt-2" />
-                    </div>
-                    <div className="mt-4">
-                        <InputLabel htmlFor="voter_year" value="Voter Year Level" />
-                        <TextInput
-                            type="number"
-                            min="1"
-                            max="5"
-                            className="mt-1 block w-full"
-                            id="voter_year"
-                            name="year"
-                            value={data.year}
-                            isFocused={true}
-                            onChange={(e) => setData('year', e.target.value)}
-                        />
-                        <InputError message={errors.year} className="mt-2" />
-                    </div>
+                    <InputLabel htmlFor="voter_course" value="Voter Course" />
+                    <SelectInput
+                        className="mt-1 block w-full"
+                        id="voter_course"
+                        name="course"
+                        value={data.course}
+                        onChange={e => setData('course', e.target.value)}
+                    >
+                        <option value="" hidden>Select Course</option>
+                        {courses
+                            .map(course => (
+                                <option key={course.id} value={course.id}>
+                                    {course.name}
+                                </option>
+                            ))}
+                    </SelectInput>
+                    <InputError message={errors.course} className="mt-2" />
+                </div>
+                <div className="mt-4">
+                    <InputLabel htmlFor="voter_year" value="Voter Year Level" />
+                    <TextInput
+                        type="number"
+                        min="1"
+                        max="5"
+                        className="mt-1 block w-full"
+                        id="voter_year"
+                        name="year"
+                        value={data.year}
+                        isFocused={true}
+                        onChange={(e) => setData('year', e.target.value)}
+                    />
+                    <InputError message={errors.year} className="mt-2" />
+                </div>
                 <div className="mt-6 flex justify-end">
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>
 

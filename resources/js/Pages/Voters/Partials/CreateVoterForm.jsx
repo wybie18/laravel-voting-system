@@ -3,18 +3,17 @@ import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
+import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
-import TextInputData from "@/Components/TextInputData";
 import { useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function CreateVoterForm({ modalOpen, closeModal, departments, programs }) {
+export default function CreateVoterForm({ modalOpen, closeModal, courses }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
-        department: '',
-        program: '',
+        course: '',
         year: '',
     });
 
@@ -82,32 +81,22 @@ export default function CreateVoterForm({ modalOpen, closeModal, departments, pr
                         <InputError message={errors.email} className="mt-2" />
                     </div>
                     <div className="mt-4">
-                        <InputLabel htmlFor="voter_department" value="Voter Department" />
-                        <TextInputData
-                            type="text"
+                        <InputLabel htmlFor="voter_course" value="Voter Course" />
+                        <SelectInput
                             className="mt-1 block w-full"
-                            id="voter_department"
-                            name="department"
-                            value={data.department}
-                            data={departments}
-                            isFocused={true}
-                            onChange={(e) => setData('department', e.target.value)}
-                        />
-                        <InputError message={errors.department} className="mt-2" />
-                    </div>
-                    <div className="mt-4">
-                        <InputLabel htmlFor="voter_program" value="Voter Program" />
-                        <TextInputData
-                            type="text"
-                            className="mt-1 block w-full"
-                            id="voter_program"
-                            name="program"
-                            value={data.program}
-                            data={programs}
-                            isFocused={true}
-                            onChange={(e) => setData('program', e.target.value)}
-                        />
-                        <InputError message={errors.program} className="mt-2" />
+                            id="voter_course"
+                            name="course"
+                            value={data.course}
+                            onChange={e => setData('course', e.target.value)}
+                        >
+                            <option value="" hidden>Select Course</option>
+                            {courses.map(course => (
+                                    <option key={course.id} value={course.id}>
+                                        {course.name}
+                                    </option>
+                                ))}
+                        </SelectInput>
+                        <InputError message={errors.course} className="mt-2" />
                     </div>
                     <div className="mt-4">
                         <InputLabel htmlFor="voter_year" value="Voter Year Level" />

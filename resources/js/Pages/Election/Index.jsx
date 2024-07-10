@@ -55,9 +55,13 @@ export default function Index({ auth, elections, queryParams = null, success }) 
     }, [success]);
 
     const searchFieldChanged = (name, value) => {
+        if(!value && !queryParams[name]){
+            return;
+        } 
         if (value) {
             queryParams[name] = value;
-        } else {
+        }
+        if (queryParams[name] && !value) {
             delete queryParams[name];
         }
         router.get(route('election.index'), queryParams);
@@ -149,7 +153,7 @@ export default function Index({ auth, elections, queryParams = null, success }) 
                                                         defaultValue={queryParams.status}
                                                         onChange={e => searchFieldChanged('status', e.target.value)}
                                                     >
-                                                        <option value=""hidden>Select Status</option>
+                                                        <option value="" hidden>Select Status</option>
                                                         <option value="">All</option>
                                                         <option value="1">Active</option>
                                                         <option value="0">Inactive</option>

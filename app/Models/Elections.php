@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Elections extends Model
 {
@@ -14,5 +13,9 @@ class Elections extends Model
 
     public function positions(){
         return $this->hasMany(Positions::class, 'election_id');
+    }
+
+    public function getPositionsWithCandidates(Elections $elections){
+        return $elections->positions()->with('candidates')->get();
     }
 }

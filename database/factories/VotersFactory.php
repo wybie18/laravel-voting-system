@@ -16,19 +16,19 @@ class VotersFactory extends Factory
      */
     public function definition(): array
     {
-        $departmentPrograms = [
-            'College of Criminal Justice Education' => ['BSCrim'], 
-            'College of Business Education' => ['BSIT', 'BSA', 'BSIA', 'BSAIS', 'BSBA'], 
-            'College of Teacher Education' => ['BEED', 'BSED']
-        ];
-        $department = fake()->randomElement(array_keys($departmentPrograms));
-        $program = fake()->randomElement($departmentPrograms[$department]);
+        // $departmentPrograms = [
+        //     'College of Criminal Justice Education' => ['BSCrim'], 
+        //     'College of Business Education' => ['BSIT', 'BSA', 'BSIA', 'BSAIS', 'BSBA'], 
+        //     'College of Teacher Education' => ['BEED', 'BSED']
+        // ];
+        // $department = fake()->randomElement(array_keys($departmentPrograms));
+        // $program = fake()->randomElement($departmentPrograms[$department]);
         return [
-            'name'=>fake()->name(),
-            'email'=>fake()->unique()->safeEmail(),
-            'department'=>$department,
-            'program'=>$program,
-            'year'=>fake()->randomElement([1, 2, 3, 4]),
+            // 'name'=>fake()->name(),
+            // 'email'=>fake()->unique()->safeEmail(),
+            // 'department'=>$department,
+            // 'program'=>$program,
+            // 'year'=>fake()->randomElement([1, 2, 3, 4]),
         ];
     }
 }

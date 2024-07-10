@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Course;
 use App\Models\Voters;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -16,22 +17,42 @@ class VotersImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
-        $voter = Voters::where('email', $row['email'])->first();
+        // Format the name and email
+        $voterName = $row['firstname'] . ' ' . $row['lastname'];
+
+        $nameExtensions = ['JR.', 'SR.', ' III', ' II'];
+        $lastname = str_ireplace(['ñ', 'Ñ'], 'n', $row['lastname']);
+        $firstname = str_ireplace(['ñ', 'Ñ'], 'n', $row['firstname']);
+
+        foreach ($nameExtensions as $extension) {
+            $lastname = str_ireplace($extension, '', strtoupper($lastname));
+            $firstname = str_ireplace($extension, '', strtoupper($firstname));
+        }
+
+        $lastname = preg_replace('/[^a-zA-Z0-9]/', '', $lastname);
+        $firstname = preg_replace('/[^a-zA-Z0-9]/', '', $firstname);
+
+        $email = strtolower($lastname . '.' . $firstname . '@sfxc.edu.ph');
+
+        $course = Course::where('name', $row['course'])->first();
+        $voter = Voters::where('email', $email)->first();
+
+        if (!$course) {
+            throw new \Exception("Course '{$row['course']}' not found.");
+        }
 
         if ($voter) {
             $voter->update([
-                'name' => $row['name'],
-                'email' => $row['email'],
-                'department' => $row['department'],
-                'program' => $row['program'],
+                'name' => $voterName,
+                'email' => $email,
+                'course_id' => $course->id,
                 'year' => $row['year'],
             ]);
         } else {
             $voter = new Voters([
-                'name' => $row['name'],
-                'email' => $row['email'],
-                'department' => $row['department'],
-                'program' => $row['program'],
+                'name' => $voterName,
+                'email' => $email,
+                'course_id' => $course->id,
                 'year' => $row['year'],
             ]);
             $voter->save();
@@ -39,10 +60,10 @@ class VotersImport implements ToModel, WithHeadingRow, WithValidation
 
         return $voter;
     }
-    // public function headingRow(): int
-    // {
-    //     return 4;
-    // }
+    public function headingRow(): int
+    {
+        return 6;
+    }
 
     /**
      * @return array
@@ -50,10 +71,9 @@ class VotersImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            '*.name' => ['required', "string", "max:200"],
-            '*.email' => ['required', 'string', 'email'],
-            '*.department' => ['required', "string", "max:100"],
-            '*.program' => ['required', "string", "max:100"],
+            '*.firstname' => ['required', "string", "max:200"],
+            '*.lastname' => ['required', "string", "max:200"],
+            '*.course' => ['required', "string", "max:100"],
             '*.year' => ['required'],
         ];
     }

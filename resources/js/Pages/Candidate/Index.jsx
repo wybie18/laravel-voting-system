@@ -69,10 +69,14 @@ export default function Index({ auth, candidates, queryParams = null, success })
     };
 
     const searchFieldChanged = (name, value) => {
+        if(!value && !queryParams[name]){
+            return;
+        }
         if (value) {
             queryParams[name] = value;
-        } else {
-            delete queryParams[name];
+        }
+        if (queryParams[name] && !value) {
+            delete queryParams[name];   
         }
         router.get(route('candidate.index'), queryParams);
     }

@@ -43,6 +43,9 @@ export default function Index({ auth, users, roles, queryParams = null, success 
     };
 
     const searchFieldChanged = (name, value) => {
+        if(!value && !queryParams[name]){
+            return;
+        }
         if (value) {
             queryParams[name] = value;
             if (name === 'name' && queryParams.email) {
@@ -50,8 +53,10 @@ export default function Index({ auth, users, roles, queryParams = null, success 
             } else if (name === 'email' && queryParams.name) {
                 delete queryParams.name;
             }
-        } else {
+        }
+        if (queryParams[name] && !value) {
             delete queryParams[name];
+            
         }
         router.get(route('user.index'), queryParams);
     }

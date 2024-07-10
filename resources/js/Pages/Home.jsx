@@ -111,16 +111,12 @@ export default function Home({ positions, candidates, elections, currectElection
     };
 
     const checkEmail = async (email) => {
-        if (email) {
-            try {
-                const response = await axios.get(`/api/check-email?email=${email}`);
-                setData('email', email);
-                setEmailValid(response.data.exists);
-            } catch (error) {
-                console.error('Error checking email', error);
-            }
-        }else{
-            setEmailValid(null);
+        try {
+            const response = await axios.get(`/api/check-email?email=${email}`);
+            setData('email', email);
+            setEmailValid(response.data.exists);
+        } catch (error) {
+            console.error('Error checking email', error);
         }
     };
 
@@ -231,16 +227,16 @@ export default function Home({ positions, candidates, elections, currectElection
                                                             />
                                                             <img
                                                                 src={candidate.image_url}
-                                                                alt="profile"
-                                                                className='w-12 h-12 md:w-16 md:h-16 object-cover rounded-full inline'
+                                                                alt=""
+                                                                className='w-10 h-10 md:w-16 md:h-16 object-cover rounded-full inline'
                                                             />
-                                                            <span className="ml-2 text-lg text-gray-700 text-nowrap">
+                                                            <span className="ml-2 text-sm sm:text-md lg:text-lg text-gray-700 text-nowrap">
                                                                 {candidate.name}
                                                             </span>
                                                         </label>
-                                                        <span className="py-1 px-2 rounded-md bg-green-900 text-gray-100 text-center cursor-pointer hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
+                                                        <span className="sm:py-1 sm:px-2 rounded-md sm:bg-green-900 text-green-900 sm:text-gray-100 text-center cursor-pointer hover:bg-green-700" onClick={() => handleOpenModal(candidate)}>
                                                             <i className="fa-solid fa-md fa-magnifying-glass inline"></i>
-                                                            <span className="ml-2 text-gray-100 hidden sm:inline">
+                                                            <span className="ml-2 hidden sm:inline">
                                                                 Platform
                                                             </span>
                                                         </span>
