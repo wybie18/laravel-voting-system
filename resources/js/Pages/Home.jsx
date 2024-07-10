@@ -206,7 +206,7 @@ export default function Home({ positions, candidates, elections, currectElection
                             <ScrollUpAnimation key={position.name}>
                                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg" >
                                     <div className="p-6 text-gray-900">
-                                        <h2 className="text-2xl font-semibold text-gray-700">
+                                        <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
                                             {position.name}
                                         </h2>
                                         <hr />
@@ -217,7 +217,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                             <ScrollRightAnimation key={candidate.id}>
                                                 <div className='mt-4 md:px-10 w-full border-t-2 border-b-2 py-2' >
                                                     <div className="flex items-center justify-between overflow-hidden">
-                                                        <label className='md:space-x-10'>
+                                                        <label className='md:space-x-10 flex items-center justify-center'>
                                                             <input
                                                                 type="radio"
                                                                 name={position.name}
@@ -230,7 +230,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                                                 alt=""
                                                                 className='w-10 h-10 md:w-16 md:h-16 object-cover rounded-full inline'
                                                             />
-                                                            <span className={`ml-2 text-${candidate.name.length > 30 ? 'xs' : 'sm'} sm:text-md lg:text-lg text-gray-700 text`}>
+                                                            <span className={`ml-2 text-sm sm:text-md lg:text-lg text-gray-700`}>
                                                                 {candidate.name}
                                                             </span>
                                                         </label>
