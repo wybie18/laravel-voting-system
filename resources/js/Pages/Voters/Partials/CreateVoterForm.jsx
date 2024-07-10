@@ -13,7 +13,7 @@ export default function CreateVoterForm({ modalOpen, closeModal, courses }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
-        course: '',
+        course_id: '',
         year: '',
     });
 
@@ -86,8 +86,8 @@ export default function CreateVoterForm({ modalOpen, closeModal, courses }) {
                             className="mt-1 block w-full"
                             id="voter_course"
                             name="course"
-                            value={data.course}
-                            onChange={e => setData('course', e.target.value)}
+                            value={data.course_id}
+                            onChange={e => setData('course_id', e.target.value)}
                         >
                             <option value="" hidden>Select Course</option>
                             {courses.map(course => (

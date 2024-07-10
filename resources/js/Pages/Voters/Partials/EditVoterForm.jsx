@@ -14,7 +14,7 @@ export default function EditVoterForm({ modalOpen, closeModal, voter, courses })
     const { data, setData, put, processing, errors, reset } = useForm({
         name: '',
         email: '',
-        course: '',
+        course_id: '',
         year: '',
     })
     useEffect(() => {
@@ -22,7 +22,7 @@ export default function EditVoterForm({ modalOpen, closeModal, voter, courses })
             setData({
                 name: voter.name,
                 email: voter.email,
-                course: voter.course.id,
+                course_id: voter.course.id,
                 year: voter.year,
             });
         }
@@ -88,8 +88,8 @@ export default function EditVoterForm({ modalOpen, closeModal, voter, courses })
                         className="mt-1 block w-full"
                         id="voter_course"
                         name="course"
-                        value={data.course}
-                        onChange={e => setData('course', e.target.value)}
+                        value={data.course_id}
+                        onChange={e => setData('course_id', e.target.value)}
                     >
                         <option value="" hidden>Select Course</option>
                         {courses
