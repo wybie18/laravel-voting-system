@@ -222,7 +222,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                                                 type="radio"
                                                                 name={position.name}
                                                                 value={candidate.id}
-                                                                className='border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 mr-2 sm:m-2'
+                                                                className='border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 mr-2 m-2'
                                                                 onChange={() => handleSelectionChange(position.name)}
                                                             />
                                                             <img
