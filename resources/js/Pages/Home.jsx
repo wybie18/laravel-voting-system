@@ -99,7 +99,6 @@ export default function Home({ positions, candidates, elections, currectElection
 
     const handleConfirm = () => {
         post(route('vote.store'), {
-            preserveScroll: true,
             onSuccess: () => {
                 reset()
                 formRef.current.reset();
