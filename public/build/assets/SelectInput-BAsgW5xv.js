@@ -1,1 +1,0 @@
-import{r,j as c}from"./app-BCj02nEJ.js";const d=r.forwardRef(function({className:s="",children:t,...o},e){const n=e||r.useRef();return c.jsx("select",{...o,className:"border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm "+s,ref:n,children:t})});export{d as S};
