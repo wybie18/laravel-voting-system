@@ -194,11 +194,16 @@ export default function Dashboard({ auth, initialData }) {
                                             </div>
                                             <PrintComponent>
                                                 <div className='flex justify-between items-center mb-6'>
-                                                    <h2 className="text-2xl font-semibold">{election.name}</h2>
+                                                    <div className='flex items-center justify-center gap-2'>
+                                                        {election.image_url && (
+                                                            <img src={'/storage/' + election.image_url} alt="logo" className="w-12 h-12 object-cover" />
+                                                        )}
+                                                        <h2 className="text-2xl font-semibold">{election.name}</h2>
+                                                    </div>
                                                     <span className='on-print bg-green-900 py-1 px-3 me-2 text-white rounded shadow transition-all hover:bg-green-700 float-end'
                                                         title='Vote Count'
                                                     >
-                                                        <span className='text-gray-100'>{data.votersVote.voted} / {data.votersVote.voters}</span>
+                                                        <span className='text-gray-100 text-nowrap'>{data.votersVote.voted} / {data.votersVote.voters}</span>
                                                     </span>
                                                 </div>
                                                 <table className="table-auto min-w-full mb-4 border-collapse border-gray-200">

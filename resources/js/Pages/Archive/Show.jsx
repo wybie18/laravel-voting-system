@@ -112,7 +112,12 @@ export default function Show({ auth, election }) {
                                         <img className="mx-auto w-32 object-cover" src="/logo.png" alt="logo" />
                                         <img className="mx-auto w-72 object-cover" src="/xavier_name.png" alt="logo" />
                                     </div>
-                                    <h2 className="text-2xl font-semibold mb-6">{election.name}</h2>
+                                    <div className='flex items-center justify-start gap-2 mb-6'>
+                                        {election.image_url && (
+                                            <img src={'/storage/' + election.image_url} alt="logo" className="w-12 h-12 object-cover" />
+                                        )}
+                                        <h2 className="text-2xl font-semibold">{election.name}</h2>
+                                    </div>
                                     <table className="table-auto min-w-full mb-4 border-collapse border-gray-200">
                                         <thead className='text-md text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500'>
                                             <tr>

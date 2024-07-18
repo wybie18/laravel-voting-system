@@ -8,9 +8,11 @@ const PrintComponent = ({ children }) => {
         removeAfterPrint: true,
     });
     return (<>
-        <button type="button" onClick={handlePrint} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700 mb-4 float-end">
-            <i className="fa-solid fa-print inline"></i><span className='ml-2'>Print</span>
-        </button>
+        <div className="mb-4 border-b flex items-center justify-end">
+            <button type="button" onClick={handlePrint} className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700 mb-4">
+                <i className="fa-solid fa-print inline"></i><span className='ml-2'>Print</span>
+            </button>
+        </div>
         <div className="w-full h-full" ref={contentToPrint}>
             <div className="print-header text-center">
                 <img className="mx-auto w-32 object-cover" src="/logo.png" alt="logo" />

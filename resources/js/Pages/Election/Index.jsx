@@ -29,7 +29,7 @@ export default function Index({ auth, elections, queryParams = null, success }) 
 
     const handleElectionIdDeletion = (data) => {
         setElectionData(e => (e = data))
-        setConfirmingDeletion(true); Link
+        setConfirmingDeletion(true);
     }
 
     const closeCreateModal = () => {
@@ -55,9 +55,9 @@ export default function Index({ auth, elections, queryParams = null, success }) 
     }, [success]);
 
     const searchFieldChanged = (name, value) => {
-        if(!value && !queryParams[name]){
+        if (!value && !queryParams[name]) {
             return;
-        } 
+        }
         if (value) {
             queryParams[name] = value;
         }
@@ -112,6 +112,7 @@ export default function Index({ auth, elections, queryParams = null, success }) 
                                             <TableHeading name="id" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 ID
                                             </TableHeading>
+                                            <th className="px-3 py-2">Image</th>
                                             <TableHeading name="name" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Name
                                             </TableHeading>
@@ -136,6 +137,8 @@ export default function Index({ auth, elections, queryParams = null, success }) 
                                     {elections.data.length > 0 ?
                                         (<thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500">
                                             <tr className="text-nowrap">
+                                                <th className="px-3 py-2">
+                                                </th>
                                                 <th className="px-3 py-2">
                                                 </th>
                                                 <th className="px-3 py-2">
@@ -172,6 +175,9 @@ export default function Index({ auth, elections, queryParams = null, success }) 
                                             elections.data.map(election => (
                                                 <tr className="bg-white border-b" key={election.id}>
                                                     <td className="px-3 py-2">{election.id}</td>
+                                                    <td className="px-3 py-2">
+                                                        <img src={election.image_url} alt="profile" className="w-14 h-14 object-cover" />
+                                                    </td>
                                                     <td className="px-3 py-2">{election.name}</td>
                                                     <td className="px-3 py-2">
                                                         <span className={

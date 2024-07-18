@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('elections', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image_url')->nullable();
             $table->boolean('is_active');
             $table->timestamp('start_date');
             $table->timestamp('end_date')->nullable();

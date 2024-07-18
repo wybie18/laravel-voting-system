@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VotersExport;
 use App\Models\Voters;
 use App\Http\Requests\StoreVotersRequest;
 use App\Http\Requests\UpdateVotersRequest;
@@ -98,5 +99,10 @@ class VoterController extends Controller
     {
         $voter->delete();
         return to_route('voter.index')->with('success','Voter "' . $voter->name . '" was deleted ');
+    }
+
+    public function export() 
+    {
+        return Excel::download(new VotersExport, 'sfxc_students.xlsx');
     }
 }

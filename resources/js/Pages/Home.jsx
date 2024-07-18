@@ -14,6 +14,7 @@ import ScrollRightAnimation from '@/Components/ScrollRightAnimation';
 
 export default function Home({ positions, candidates, elections, currectElectionId, success }) {
     const electionName = elections.filter(election => election.id == currectElectionId).map(election => election.name)
+    const electionImageUrl = elections.filter(election => election.id == currectElectionId).map(election => election.image_url)
     const [openModal, setOpenModal] = useState(false);
     const [previewModal, setPreviewModal] = useState(false);
     const [candidateName, setCandidateName] = useState('');
@@ -141,7 +142,13 @@ export default function Home({ positions, candidates, elections, currectElection
     return (
         <CustomLayout
             header={
-                <h1>{electionName} Election</h1>
+
+                <div className='flex items-center justify-start gap-x-2'>
+                    {electionImageUrl && (
+                        <img src={'/storage/' + electionImageUrl} alt="logo" className="w-8 h-8 object-cover" />
+                    )}
+                    <h1>{electionName} Election</h1>
+                </div>
             }
             links={elections}
         >

@@ -5,14 +5,15 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function EditElectionForm({ modalOpen, closeModal, election }) {
-    const { data, setData, put, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
+        image: '',
         is_active: '',
         start_date: '',
         end_date: '',
@@ -42,7 +43,14 @@ export default function EditElectionForm({ modalOpen, closeModal, election }) {
     }
     const onSubmit = (e, id) => {
         e.preventDefault()
-        put(route("election.update", id), {
+        router.post(route("election.update", id), {
+            _method: 'PUT',
+            name: data.name,
+            image: data.image,
+            is_active: data.is_active,
+            start_date: data.start_date,
+            end_date: data.end_date
+        }, {
             preserveScroll: true,
             onSuccess: () => {
                 reset()
@@ -57,6 +65,24 @@ export default function EditElectionForm({ modalOpen, closeModal, election }) {
                 <h2 className="text-lg font-medium text-gray-900">
                     Create new election
                 </h2>
+                {election && (
+                    election.image_url && (
+                        <div className="mt-4 text-center">
+                            <img src={election.image_url} alt="logo" className="w-40 h-40 object-cover rounded-lg mb-4" />
+                        </div>
+                    )
+                )}
+                <div className="mt-4">
+                    <InputLabel htmlFor="election_image" value="Election Logo" />
+                    <TextInput
+                        type="file"
+                        className="mt-1 block w-full p-2"
+                        id="election_image"
+                        name="image"
+                        accept="image/*"
+                        onChange={e => setData('image', e.target.files[0])}
+                    />
+                </div>
                 <div className="mt-4">
                     <InputLabel htmlFor="election_name" value="Election Name" />
                     <TextInput

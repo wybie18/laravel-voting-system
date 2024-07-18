@@ -12,6 +12,7 @@ import { ThreeDots } from "react-loader-spinner";
 export default function CreateElectionForm({ modalOpen, closeModal }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
+        image: '',
         is_active: '',
         start_date: '',
         end_date: '',
@@ -46,6 +47,17 @@ export default function CreateElectionForm({ modalOpen, closeModal }) {
                 <h2 className="text-lg font-medium text-gray-900">
                     Create new election
                 </h2>
+                <div className="mt-4">
+                    <InputLabel htmlFor="election_image" value="Election Logo" />
+                    <TextInput
+                        type="file"
+                        className="mt-1 block w-full p-2"
+                        id="election_image"
+                        name="image"
+                        accept="image/*"
+                        onChange={e => setData('image', e.target.files[0])}
+                    />
+                </div>
                 <div className="mt-4">
                     <InputLabel htmlFor="election_name" value="Election Name" />
                     <TextInput

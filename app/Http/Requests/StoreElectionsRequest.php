@@ -24,6 +24,7 @@ class StoreElectionsRequest extends FormRequest
     {
         return [
             "name" => ['required', 'max:100'],
+            "image" => ["nullable","image"],
             "start_date" => ["required","date"],
             "end_date" => ["required","date"],
             "is_active" => ['required', Rule::in(['0', '1'])],

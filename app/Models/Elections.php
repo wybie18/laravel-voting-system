@@ -9,7 +9,7 @@ class Elections extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'is_active', 'start_date', 'end_date'];
+    protected $fillable = ['name', 'image_url', 'is_active', 'start_date', 'end_date'];
 
     public function positions(){
         return $this->hasMany(Positions::class, 'election_id');

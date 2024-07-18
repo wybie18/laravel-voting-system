@@ -75,9 +75,13 @@ export default function EditCandidateForm({ modalOpen, closeModal, activePositio
                 <h2 className="text-lg font-medium text-gray-900">
                     Edit candidate {candidate ? ` - ${candidate.name}` : ""}
                 </h2>
-                <div className="mt-4 text-center">
-                    <img src={candidate ? ` ${candidate.image_url}` : ""} alt="profile" className="w-40 h-40 object-cover rounded-lg mb-4" />
-                </div>
+                {candidate && (
+                    candidate.image_url && (
+                        <div className="mt-4 text-center">
+                            <img src={candidate.image_url} alt="profile" className="w-40 h-40 object-cover rounded-lg mb-4" />
+                        </div>
+                    )
+                )}
                 <div className="mt-4">
                     <InputLabel htmlFor="candidate_image" value="Candidate Image" />
                     <TextInput

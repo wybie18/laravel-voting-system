@@ -54,6 +54,7 @@ export default function CreateCandidateForm({modalOpen, closeModal, activePositi
                         className="mt-1 block w-full p-2"
                         id="candidate_image"
                         name="image"
+                        accept="image/*"
                         onChange={e => setData('image', e.target.files[0])}
                     />
                 </div>

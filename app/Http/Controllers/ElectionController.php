@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Elections;
 use App\Http\Requests\StoreElectionsRequest;
 use App\Http\Requests\UpdateElectionsRequest;
 use App\Http\Resources\ElectionResource;
+use App\Models\Elections;
+use DateTime;
+use Illuminate\Support\Facades\Storage;
 
 class ElectionController extends Controller
 {
@@ -19,10 +21,10 @@ class ElectionController extends Controller
         $sortField = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
 
-        if(request("name")){
-            $query->where("name", "like", "%".request("name")."%");
+        if (request("name")) {
+            $query->where("name", "like", "%" . request("name") . "%");
         }
-        if(request() -> has("status")){
+        if (request()->has("status")) {
             $query->where("is_active", request("status"));
         }
 
@@ -40,6 +42,12 @@ class ElectionController extends Controller
     public function store(StoreElectionsRequest $request)
     {
         $data = $request->validated();
+        $image = $data['image'] ?? null;
+        if ($image){
+            $now = new DateTime();
+            $formattedDateTime = $now->format('Y-m-d-H-i-s');
+            $data['image_url'] = $image->store('election/'. $data['name'] . $formattedDateTime, 'public' );
+        }
         Elections::create($data);
         return to_route("election.index")->with('success', 'Election created successfully');
     }
@@ -49,7 +57,17 @@ class ElectionController extends Controller
      */
     public function update(UpdateElectionsRequest $request, Elections $election)
     {
-        $election->update($request->validated());
+        $data = $request->validated();
+        $image = $data['image'] ?? null;
+        if ($image){
+            if ($election->image_url){
+                Storage::disk('public')->deleteDirectory(dirname($election->image_url));
+            }
+            $now = new DateTime();
+            $formattedDateTime = $now->format('Y-m-d-H-i-s');
+            $data['image_url'] = $image->store('election/'. $data['name'] . $formattedDateTime, 'public' );
+        }
+        $election->update($data);
         return to_route("election.index")->with('success', 'Election for "' . $election->name . '" was updated ');
     }
 
@@ -57,9 +75,9 @@ class ElectionController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Elections $election)
-    {   
+    {
         $election->delete();
-        return to_route('election.index')->with('success','Election for "' . $election->name . '" was deleted ');
+        return to_route('election.index')->with('success', 'Election for "' . $election->name . '" was deleted ');
     }
     public function getActiveElections()
     {

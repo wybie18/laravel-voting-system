@@ -122,6 +122,9 @@ export default function Index({ auth, voters, courses, queryParams = null, succe
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
+                            <div className="flex items-center justify-end pb-2">
+                                <a href={route('voter.export')} target="_black" className="bg-green-900 py-1 px-3 text-white rounded shadow transition-all hover:bg-green-700">Export</a>
+                            </div>
                             <div className="overflow-auto">
                                 <table className="w-full text-sm text-left rtl:text-right text-gray-600">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b-2 border-gray-500">
