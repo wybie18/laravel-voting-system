@@ -15,7 +15,7 @@ import ScrollRightAnimation from '@/Components/ScrollRightAnimation';
 export default function Home({ positions, candidates, elections, currectElectionId, success }) {
     const election = elections.find(election => election.id == currectElectionId);
     const electionImageUrl = election ? election.image_url : null;
-    const electionName = election.name
+    const electionName = election ? election.name : ""
     const [openModal, setOpenModal] = useState(false);
     const [previewModal, setPreviewModal] = useState(false);
     const [candidateName, setCandidateName] = useState('');
@@ -148,7 +148,7 @@ export default function Home({ positions, candidates, elections, currectElection
                     {electionImageUrl && (
                         <img src={'/storage/' + electionImageUrl} alt="logo" className="w-8 h-8 object-cover" />
                     )}
-                    <h1>{electionName} Election</h1>
+                    <h1>{electionName}</h1>
                 </div>
             }
             links={elections}
@@ -165,7 +165,7 @@ export default function Home({ positions, candidates, elections, currectElection
                                 <div className="p-6 text-gray-900">
                                     <div class="p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
                                         {elections.length === 0 ?
-                                            <span><span className='font-semibold'>Election Update:</span> No current elections available. Stay tuned for upcoming polls!</span> :
+                                            <span><span className='font-semibold'>Notice:</span> No current elections available. Stay tuned for upcoming polls!</span> :
                                             <span><span className='font-semibold'>Oops!</span> It looks like the election you're trying to access doesn't exist. Please check the URL or navigate back to the homepage.</span>
                                         }
                                     </div>
@@ -179,7 +179,7 @@ export default function Home({ positions, candidates, elections, currectElection
                             <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg'>
                                 <div className="p-6 text-gray-900">
                                     <div class="p-4 my-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
-                                        <span><span className='font-semibold'>Notice to Voters:</span> We currently have no candidates listed for this election. Candidate nominations may be underway, so please stay tuned for updates.</span>
+                                        <span><span className='font-semibold'>Notice:</span> We currently have no candidates listed for this election. Candidate nominations may be underway, so please stay tuned for updates.</span>
                                     </div>
                                 </div>
                             </div>
