@@ -13,8 +13,9 @@ import ScrollUpAnimation from '@/Components/ScrollUpAnimation';
 import ScrollRightAnimation from '@/Components/ScrollRightAnimation';
 
 export default function Home({ positions, candidates, elections, currectElectionId, success }) {
-    const electionName = elections.filter(election => election.id == currectElectionId).map(election => election.name)
-    const electionImageUrl = elections.filter(election => election.id == currectElectionId).map(election => election.image_url)
+    const election = elections.find(election => election.id == currectElectionId);
+    const electionImageUrl = election ? election.image_url : null;
+    const electionName = election.name
     const [openModal, setOpenModal] = useState(false);
     const [previewModal, setPreviewModal] = useState(false);
     const [candidateName, setCandidateName] = useState('');
