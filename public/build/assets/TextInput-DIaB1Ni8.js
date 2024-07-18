@@ -1,0 +1,1 @@
+import{r as e,j as f}from"./app-DTNec_AW.js";const p=e.forwardRef(function({type:s="text",className:o="",isFocused:n=!1,...u},r){const t=r||e.useRef();return e.useEffect(()=>{n&&t.current.focus()},[]),f.jsx("input",{...u,type:s,className:"border-gray-300 focus:border-green-500 focus:ring-green-500 rounded-md shadow-sm "+o,ref:t})});export{p as T};

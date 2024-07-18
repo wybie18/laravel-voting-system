@@ -145,7 +145,7 @@ export default function Home({ positions, candidates, elections, currectElection
 
                 <div className='flex items-center justify-start gap-x-2'>
                     {electionImageUrl && (
-                        <img src={'/storage/' + electionImageUrl} alt="logo" className="w-12 h-12 object-cover" />
+                        <img src={'/storage/' + electionImageUrl} alt="logo" className="w-14 h-14 md:w-16 md:h-16 object-cover" />
                     )}
                     <h1>{electionName}</h1>
                 </div>
