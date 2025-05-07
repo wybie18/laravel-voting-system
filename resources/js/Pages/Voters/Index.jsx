@@ -147,22 +147,11 @@ export default function Index({ auth, voters, queryParams = null, success }) {
                                                     <TextInput
                                                         className="w-full"
                                                         defaultValue={queryParams.name}
-                                                        placeholder="Enter Voter Name"
-                                                        onBlur={e => searchFieldChanged('name', e.target.value)}
-                                                        onKeyPress={e => onKeyPress('name', e)}
-                                                    />
-                                                </th>
-                                                <th className="px-3 py-2">
-                                                    <TextInput
-                                                        className="w-full"
-                                                        defaultValue={queryParams.email}
                                                         placeholder="Enter Voter Email"
                                                         onBlur={e => searchFieldChanged('email', e.target.value)}
                                                         onKeyPress={e => onKeyPress('email', e)}
                                                     />
                                                 </th>
-                                                <th className="px-3 py-2"></th>
-                                                <th className="px-3 py-2"></th>
                                                 <th className="px-3 py-2 text-right"></th>
                                             </tr>
                                         </thead>) : null

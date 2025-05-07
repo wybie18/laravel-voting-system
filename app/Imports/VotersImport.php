@@ -50,7 +50,7 @@ class VotersImport implements ToModel, WithHeadingRow, WithValidation
     }
     public function headingRow(): int
     {
-        return 6;
+        return 1;
     }
 
     /**
