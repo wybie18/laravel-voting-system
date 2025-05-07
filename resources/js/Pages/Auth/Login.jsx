@@ -31,18 +31,23 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Log in" />
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
+            <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-green-700">Welcome Back</h2>
+                <p className="text-sm text-gray-600">Please sign in to your account</p>
+            </div>
 
-            <form onSubmit={submit}>
+            {status && <div className="mb-4 font-medium text-sm text-green-600 bg-green-50 p-3 rounded-md">{status}</div>}
+
+            <form onSubmit={submit} className="bg-white rounded-lg">
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Email" className="text-green-800 font-medium" />
 
                     <TextInput
                         id="email"
                         type="email"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         autoComplete="username"
                         isFocused={true}
                         onChange={(e) => setData('email', e.target.value)}
@@ -52,14 +57,14 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value="Password" className="text-green-800 font-medium" />
 
                     <TextInput
                         id="password"
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full border-gray-300 focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         autoComplete="current-password"
                         onChange={(e) => setData('password', e.target.value)}
                     />
@@ -73,22 +78,26 @@ export default function Login({ status, canResetPassword }) {
                             name="remember"
                             checked={data.remember}
                             onChange={(e) => setData('remember', e.target.checked)}
+                            className="rounded border-gray-300 text-green-600 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50"
                         />
                         <span className="ms-2 text-sm text-gray-600">Remember me</span>
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="flex items-center justify-between mt-6">
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="text-sm text-green-700 hover:text-green-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                         >
                             Forgot your password?
                         </Link>
                     )}
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <PrimaryButton 
+                        className="px-6 py-2 bg-green-700 hover:bg-green-800 focus:bg-green-800 active:bg-green-900 border-green-800" 
+                        disabled={processing}
+                    >
                         {processing ? <ThreeDots
                             visible={true}
                             height="16"
@@ -98,7 +107,7 @@ export default function Login({ status, canResetPassword }) {
                             ariaLabel="three-dots-loading"
                             wrapperStyle={{}}
                             wrapperClass=""
-                        /> : "Log in"}
+                        /> : "Sign In"}
                     </PrimaryButton>
                 </div>
             </form>

@@ -10,7 +10,7 @@ import { Toaster } from "react-hot-toast";
 export default function CustomLayout({ header, links, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     return (
-        <div className="min-h-screen bg-gray-100" >
+        <div className="min-h-screen bg-gray-100 z-50" >
             <nav className="bg-xavier-green border-b border-gray-100 sticky top-0">
                 <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
                     <ScrollDownAnimation>
