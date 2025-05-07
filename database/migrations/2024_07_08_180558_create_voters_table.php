@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('voters', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('email')->unique();
-            $table->foreignId('course_id')->constrained('courses');
-            $table->integer('year');
             $table->timestamps();
         });
     }

@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Voters extends Model
 {
-    protected $fillable = ['name', 'email', 'course_id', 'year'];
+    protected $fillable = ['email'];
     use HasFactory;
-    public function course(){
-        return $this->belongsTo(Course::class);
+
+    public function votes(){
+        return $this->hasMany(Votes::class);
     }
 }

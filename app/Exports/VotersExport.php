@@ -24,10 +24,7 @@ class VotersExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'name',
             'email',
-            'course',
-            'year',
         ];
     }
 }

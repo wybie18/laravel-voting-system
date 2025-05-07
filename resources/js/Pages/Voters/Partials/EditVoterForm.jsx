@@ -10,20 +10,14 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
 
-export default function EditVoterForm({ modalOpen, closeModal, voter, courses }) {
+export default function EditVoterForm({ modalOpen, closeModal, voter }) {
     const { data, setData, put, processing, errors, reset } = useForm({
-        name: '',
         email: '',
-        course_id: '',
-        year: '',
     })
     useEffect(() => {
         if (voter) {
             setData({
-                name: voter.name,
                 email: voter.email,
-                course_id: voter.course.id,
-                year: voter.year,
             });
         }
     }, [voter])
@@ -58,19 +52,6 @@ export default function EditVoterForm({ modalOpen, closeModal, voter, courses })
                     Edit voter
                 </h2>
                 <div className="mt-4">
-                    <InputLabel htmlFor="voter_name" value="Voter Name" />
-                    <TextInput
-                        type="text"
-                        className="mt-1 block w-full"
-                        id="voter_name"
-                        name="name"
-                        value={data.name}
-                        isFocused={true}
-                        onChange={e => setData('name', e.target.value)}
-                    />
-                    <InputError message={errors.name} className="mt-2" />
-                </div>
-                <div className="mt-4">
                     <InputLabel htmlFor="voter_email" value="Voter Email" />
                     <TextInput
                         type="email"
@@ -81,40 +62,6 @@ export default function EditVoterForm({ modalOpen, closeModal, voter, courses })
                         onChange={e => setData('email', e.target.value)}
                     />
                     <InputError message={errors.email} className="mt-2" />
-                </div>
-                <div className="mt-4">
-                    <InputLabel htmlFor="voter_course" value="Voter Course" />
-                    <SelectInput
-                        className="mt-1 block w-full"
-                        id="voter_course"
-                        name="course"
-                        value={data.course_id}
-                        onChange={e => setData('course_id', e.target.value)}
-                    >
-                        <option value="" hidden>Select Course</option>
-                        {courses
-                            .map(course => (
-                                <option key={course.id} value={course.id}>
-                                    {course.name}
-                                </option>
-                            ))}
-                    </SelectInput>
-                    <InputError message={errors.course} className="mt-2" />
-                </div>
-                <div className="mt-4">
-                    <InputLabel htmlFor="voter_year" value="Voter Year Level" />
-                    <TextInput
-                        type="number"
-                        min="1"
-                        max="5"
-                        className="mt-1 block w-full"
-                        id="voter_year"
-                        name="year"
-                        value={data.year}
-                        isFocused={true}
-                        onChange={(e) => setData('year', e.target.value)}
-                    />
-                    <InputError message={errors.year} className="mt-2" />
                 </div>
                 <div className="mt-6 flex justify-end">
                     <SecondaryButton type="button" onClick={closeModal}>Cancel</SecondaryButton>

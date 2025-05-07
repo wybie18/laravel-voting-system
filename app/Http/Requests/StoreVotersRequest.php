@@ -22,10 +22,7 @@ class StoreVotersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string", "max:200"],
             "email" => ["required","string", "email", "unique:voters,email"],
-            "course_id" => ["required", "exists:courses,id"],
-            "year" => ['required', 'integer'],
         ];
     }
 }

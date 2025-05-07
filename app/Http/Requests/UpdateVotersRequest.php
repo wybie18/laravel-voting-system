@@ -23,10 +23,7 @@ class UpdateVotersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string", "max:200"],
             "email" => ["required","string", "email", Rule::unique('voters', 'email')->ignore($this->voter->id)],
-            "course_id" => ['required', 'exists:courses,id'],
-            "year" => ['required', 'integer'],
         ];
     }
 }

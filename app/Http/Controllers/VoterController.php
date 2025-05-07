@@ -8,7 +8,6 @@ use App\Http\Requests\StoreVotersRequest;
 use App\Http\Requests\UpdateVotersRequest;
 use App\Http\Resources\VotersResource;
 use App\Imports\VotersImport;
-use App\Models\Course;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
@@ -27,17 +26,12 @@ class VoterController extends Controller
         $sortField = request("sort_field", "created_at");
         $sortDirection = request("sort_direction", "desc");
 
-        if (request("name")) {
-            $query->where("name", "like", "%" . request("name") . "%");
-        }
         if (request("email")) {
             $query->where("email", "like", "%" . request("email") . "%");
         }
         $voters = $query->orderBy($sortField, $sortDirection)->paginate(10)->onEachSide(1);
-        $courses = Course::all();
         return inertia("Voters/Index", [
             "voters" => VotersResource::collection($voters),
-            "courses" => $courses,
             "queryParams" => request()->query() ?: null,
             "success" => session('success'),
         ]);

@@ -10,7 +10,7 @@ import DeleteVoterForm from "./Partials/DeleteVoterForm";
 import EditVoterForm from "./Partials/EditVoterForm";
 import UploadVoterForm from "./Partials/UploadVoterForm";
 
-export default function Index({ auth, voters, courses, queryParams = null, success }) {
+export default function Index({ auth, voters, queryParams = null, success }) {
     queryParams = queryParams || {};
     const [voterData, setVoterData] = useState();
     const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -132,20 +132,8 @@ export default function Index({ auth, voters, courses, queryParams = null, succe
                                             <TableHeading name="id" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 ID
                                             </TableHeading>
-                                            <TableHeading name="name" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
-                                                Name
-                                            </TableHeading>
                                             <TableHeading name="email" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
                                                 Email
-                                            </TableHeading>
-                                            {/* <TableHeading name="program" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
-                                                Program
-                                            </TableHeading> */}
-                                            <th className="px-3 py-2">
-                                                Course
-                                            </th>
-                                            <TableHeading name="year" sort_field={queryParams.sort_field} sort_direction={queryParams.sort_direction} sortChange={sortChange}>
-                                                Year Level
                                             </TableHeading>
                                             <th className="px-3 py-2 text-right">Actions</th>
                                         </tr>
@@ -184,10 +172,7 @@ export default function Index({ auth, voters, courses, queryParams = null, succe
                                             voters.data.map(voter => (
                                                 <tr className="bg-white border-b" key={voter.id}>
                                                     <td className="px-3 py-2">{voter.id}</td>
-                                                    <td className="px-3 py-2 text-nowrap">{voter.name}</td>
                                                     <td className="px-3 py-2">{voter.email}</td>
-                                                    <td className="px-3 py-2">{voter.course.name}</td>
-                                                    <td className="px-3 py-2">{voter.year}</td>
                                                     <td className="px-3 py-2 text-right">
                                                         <span className="font-medium text-blue-600 hover:underline mx-1 cursor-pointer" onClick={() => handleEditVoter(voter)}>
                                                             Edit
@@ -213,9 +198,9 @@ export default function Index({ auth, voters, courses, queryParams = null, succe
                     </div>
                 </div>
             </div>
-            <CreateVoterForm modalOpen={createModalOpen} closeModal={closeCreateModal} courses={courses} />
+            <CreateVoterForm modalOpen={createModalOpen} closeModal={closeCreateModal}/>
             <UploadVoterForm modalOpen={uploadModalOpen} closeModal={closeUploadModal} />
-            <EditVoterForm modalOpen={editModalOpen} closeModal={closeEditModal} voter={voterData} courses={courses} />
+            <EditVoterForm modalOpen={editModalOpen} closeModal={closeEditModal} voter={voterData}/>
             <DeleteVoterForm modalOpen={deleteModalOpen} closeModal={closeDeleteModal} voter={voterData} />
         </AdminAuthenticatedLayout>
     )

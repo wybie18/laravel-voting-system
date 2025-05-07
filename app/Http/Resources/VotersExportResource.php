@@ -16,10 +16,7 @@ class VotersExportResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "name" => $this->name,
             "email" => $this->email,
-            "course" => $this->course->name,
-            "year" => $this->year,
         ];
     }
 }

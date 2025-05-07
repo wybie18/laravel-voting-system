@@ -35,9 +35,5 @@ class DatabaseSeeder extends Seeder
         $role->givePermissionTo(['can create', 'can update', 'can delete']);
 
         $adminUser->assignRole('admin');
-        $this->call([
-            DepartmentSeeder::class,
-            CourseSeeder::class,
-        ]);
     }
 }
